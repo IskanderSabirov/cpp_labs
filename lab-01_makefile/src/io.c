@@ -1,7 +1,8 @@
 #include <stdio.h>
+#include "io.h"
 
 void logDebug(char s) {
 
-    printf('%c',s);
+    printf("%c",s);
 
 }

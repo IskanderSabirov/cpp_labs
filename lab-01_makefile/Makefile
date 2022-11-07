@@ -9,18 +9,32 @@ EXECUTABLE=lab-01_makefile
 SOURCES = main.c io.c util.c algorithm.c
 
 
-all: prepare compile link
+.PHONY :prepare compile link clean
+
+all :  prepare compile link clean
 
 prepare:
 	if [ ! -d obj ]; then mkdir obj; fi
 
-compile: $(CSOURCES)
+compile : main.o util.o io.o algorithm.o
 
-$(SOURCES):
-	$(CC) $(CFLAGS) $(INCLUDES) src/$@ -o obj/$@.o
+main.o : src/main.c
+	gcc $(CFLAGS) $(INCLUDES)  src/main.c -o obj/main.o
+
+util.o : src/util.c
+	gcc $(CFLAGS) $(INCLUDES) src/util.c -o obj/util.o
+
+io.o : src/io.c
+	gcc $(CFLAGS) $(INCLUDES) src/io.c -o obj/io.o
+
+algorithm.o : src/algorithm.c
+	gcc $(CFLAGS) $(INCLUDES) src/algorithm.c -o obj/algorithm.o
+
 
 link:
-	$(CC) obj/*.o -o $(EXECUTABLE)
+	gcc obj/*.o -o $(EXECUTABLE)
 
 clean:
-	rm -rf obj/*.o $(EXECUTABLE)
+	#rm -rf obj/*.o $(EXECUTABLE)
+	rm -rf obj
+
