@@ -8,5 +8,6 @@ int main() {
   int b = 5;
   max(a, b);
   logDebug('!');
+  printf("\n");
   return 0;
 }
