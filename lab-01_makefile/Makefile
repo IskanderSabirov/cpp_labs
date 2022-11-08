@@ -35,7 +35,7 @@ algorithm.o : src/algorithm.c
 link:
 	gcc obj/*.o -o $(EXECUTABLE)
 
-#clean:
-#	#rm -rf obj/*.o $(EXECUTABLE)
-#	rm -rf obj
+clean:
+	rm -rf obj/*.o $(EXECUTABLE)
+	rm -rf obj
 
