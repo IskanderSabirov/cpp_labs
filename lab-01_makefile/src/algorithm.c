@@ -1,4 +1,5 @@
-#include "max.h"
+#include "algorithm.h"
+#include "util.h"
 #include "io.h"
 
 int doComputation(__attribute__((unused))int a,__attribute__((unused)) double b) {

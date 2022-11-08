@@ -1,6 +1,6 @@
 #include "io.h"
-#include "max.h"
-#include "doComputation.h"
+#include "util.h"
+#include "algorithm.h"
 #include <stdio.h>
 
 int main() {

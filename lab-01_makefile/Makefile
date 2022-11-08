@@ -1,39 +1,37 @@
 
-.PHONY: all prepare compile link clean
+.PHONY :all prepare compile link clean
 
 CC=gcc
 CFLAGS=-c -Wall -Werror -Wextra
 INCLUDES=-Iinclude
 EXECUTABLE=lab-01_makefile
 
-SOURCES = main.c io.c util.c algorithm.c
 
 
-.PHONY :all prepare compile link
 
-all :  prepare compile link
+all : prepare compile link
 
 prepare:
 	if [ ! -d obj ]; then mkdir obj; fi
 
-compile : main.o util.o io.o algorithm.o
+compile: obj/main.o obj/util.o obj/io.o obj/algorithm.o
 
+obj/main.o: src/main.c
+	$(CC) $(CFLAGS) $(INCLUDES) src/main.c -o obj/main.o
 
-main.o : src/main.c
-	gcc $(CFLAGS) $(INCLUDES)  src/main.c -o obj/main.o
+obj/util.o: src/util.c
+	$(CC) $(CFLAGS) $(INCLUDES) src/util.c -o obj/util.o
 
-util.o : src/util.c
-	gcc $(CFLAGS) $(INCLUDES) src/util.c -o obj/util.o
+obj/io.o: src/io.c
+	$(CC) $(CFLAGS) $(INCLUDES) src/io.c -o obj/io.o
 
-io.o : src/io.c
-	gcc $(CFLAGS) $(INCLUDES) src/io.c -o obj/io.o
+obj/algorithm.o: src/algorithm.c
+	$(CC) $(CFLAGS) $(INCLUDES) src/algorithm.c -o obj/algorithm.o
 
-algorithm.o : src/algorithm.c
-	gcc $(CFLAGS) $(INCLUDES) src/algorithm.c -o obj/algorithm.o
+link : lab-01_makefile
 
-
-link:
-	gcc obj/*.o -o $(EXECUTABLE)
+lab-01_makefile: obj/main.o obj/util.o obj/io.o obj/algorithm.o
+	$(CC) obj/*.o -o $(EXECUTABLE)
 
 clean:
 	rm -rf obj/*.o $(EXECUTABLE)
