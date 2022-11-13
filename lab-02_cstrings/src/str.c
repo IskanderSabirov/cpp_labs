@@ -38,7 +38,7 @@ int my_strcmp(const char *s1, const char *s2) {
 size_t my_strlen(const char *s) {
     const char *p = s;
     while (*p != '\0') ++p;
-    return (size_t) (p - s) / sizeof(char);
+    return (size_t) (p - s);
 }
 
 
