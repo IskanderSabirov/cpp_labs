@@ -21,7 +21,8 @@ void test_strcpy() {
     assert(strcmp(my_str, third) == 0);
     assert(strcmp(my_str, std_str) == 0);
 
-
+    char *my_result = my_strcpy(my_str, first);
+    assert(my_result == my_str);
 
 }
 
@@ -49,6 +50,14 @@ void test_strcat() {
     assert(strcmp(strcat(first, second), my_strcat(first, second)) == 0);
     assert(strcmp(strcat(first, third), my_strcat(first, third)) == 0);
     assert(strcmp(strcat(third, second), my_strcat(third, second)) == 0);
+
+    char *my_result1 = my_strcat(first, second);
+    assert(my_result1 == first);
+
+    char *my_result2 = my_strcat(third, second);
+    assert(my_result2 == third);
+
+
 }
 
 void test_strlen() {
