@@ -2,8 +2,6 @@
 #define C_LABS_MERGESORT_H
 
 #include <stddef.h>
-#include <malloc.h>
-#include <assert.h>
 
 void mergesort(void *array, size_t elements, size_t element_size, int (*comparator)(const void *, const void *));
 

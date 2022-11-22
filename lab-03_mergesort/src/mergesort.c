@@ -1,5 +1,6 @@
 #include "mergesort.h"
-
+#include <malloc.h>
+#include <assert.h>
 
 static void assign(char *string, char *string1, size_t size);
 
