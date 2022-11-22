@@ -27,7 +27,8 @@ int main(int argc, char **argv) {
             mergesort(b, argc - 2, sizeof(char), char_comparator);
 
             for (int i = 0; i < argc - 2; i++) {
-                printf("%c ", b[i]);
+                printf("%c", b[i]);
+                if (i != argc - 3) printf(" ");
             }
             printf("\n");
 
@@ -44,7 +45,8 @@ int main(int argc, char **argv) {
                 mergesort(b, argc - 2, sizeof(argv[2]), str_comparator);
 
                 for (int i = 0; i < argc - 2; i++) {
-                    printf("%s ", (b[i]));
+                    printf("%s", (b[i]));
+                    if (i != argc - 3) printf(" ");
                 }
                 printf("\n");
 
@@ -60,7 +62,8 @@ int main(int argc, char **argv) {
                 mergesort(b, argc - 2, sizeof(int), int_comparator);
 
                 for (int i = 0; i < argc - 2; i++) {
-                    printf("%d ", b[i]);
+                    printf("%d", b[i]);
+                    if(i!=argc-3) printf(" ");
                 }
                 printf("\n");
 
