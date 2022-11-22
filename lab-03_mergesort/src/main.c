@@ -1,4 +1,5 @@
 #include <string.h>
+#include <stdlib.h>
 #include <stdio.h>
 #include "mergesort.h"
 
@@ -63,7 +64,7 @@ int main(int argc, char **argv) {
 
                 for (int i = 0; i < argc - 2; i++) {
                     printf("%d", b[i]);
-                    if(i!=argc-3) printf(" ");
+                    if (i != argc - 3) printf(" ");
                 }
                 printf("\n");
 
