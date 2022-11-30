@@ -1,14 +1,14 @@
 #include "clist.h"
-#include "stdio.h"
-#include "string.h"
-#include "stdlib.h"
-#include "stdbool.h"
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <stdbool.h>
 
 #define container_of(ptr, type, member) (type *)((char *)(ptr)-offsetof(type, member))
 
 typedef struct point {
     int x, y;
-    struct intrusive_node node;
+    intrusive_node node;
 } point;
 
 void add_point(intrusive_list *list, int x, int y) {
@@ -21,21 +21,22 @@ void add_point(intrusive_list *list, int x, int y) {
 
 void remove_point(intrusive_list *list, int x, int y) {
 
-    intrusive_node *head = list->head;
+    intrusive_node *base = list->head;
 
 
-    while (head->next != NULL) {
+    while (base != NULL) {
 
-        intrusive_node *nowNode = head->next;
+        intrusive_node *nowNode = base;
 
         point *remove_point = container_of(nowNode, point, node);
 
+        base = base->next;
+
         if (!(remove_point->x == x && remove_point->y == y)) {
-            head = head->next;
             continue;
         }
 
-        remove_node(nowNode);
+        remove_node(list, nowNode);
         free(remove_point);
     }
 }
@@ -45,14 +46,15 @@ void show_all_points(intrusive_list *list) {
     intrusive_node *base = list->head;
     if (get_length(list) == 0) printf("\n");
     else {
-        while (base->next != NULL) {
+        while (base != NULL) {
 
-            base = base->next;
             point *print_point = container_of(base, point, node);
 
             if (base->next != NULL) {
                 printf("(%d %d) ", print_point->x, print_point->y);
             } else printf("(%d %d)\n", print_point->x, print_point->y);
+
+            base = base->next;
         }
     }
 }
@@ -61,12 +63,14 @@ void show_all_points(intrusive_list *list) {
 void remove_all_points(intrusive_list *list) {
     intrusive_node *base = list->head;
 
-    while (base->next != NULL) {
+    while (base != NULL) {
 
-        intrusive_node *nowNode = base->next;
+        intrusive_node *nowNode = base;
+        base = base->next;
+
         point *remove_point = container_of(nowNode, point, node);
 
-        remove_node(nowNode);
+        remove_node(list, nowNode);
         free(remove_point);
     }
 }
@@ -116,6 +120,6 @@ int main() {
     }
 
     remove_all_points(&list);
-    free(list.head);
+
     return 0;
 }
