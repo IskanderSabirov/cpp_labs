@@ -19,8 +19,8 @@ void read_txt(FILE *f, intrusive_list *list) {
 void read_bin(FILE *f, intrusive_list *l) {
     int x[2] = {0, 0}, i = 0;
     while (fread(&(x[i]), 3, 1, f)) {
-        if (x[i] > 8388607) {
-            x[i] = x[i] - 16777216;
+        if (x[i] > 0x7FFFFF) {
+            x[i] = x[i] - 0x1000000;
         }
         i = 1 - i;
         if (i == 0) {
@@ -51,13 +51,13 @@ void write_bin(FILE *f, intrusive_list *l) {
         if ((p->x) >= 0) {
             fwrite(&(p->x), 3, 1, f);
         } else {
-            int k = 16777216 + (p->x);
+            int k = 0x1000000 + (p->x);
             fwrite(&k, 3, 1, f);
         }
         if ((p->y) >= 0) {
             fwrite(&(p->y), 3, 1, f);
         } else {
-            int k = 16777216 + (p->y);
+            int k = 0x1000000 + (p->y);
             fwrite(&k, 3, 1, f);
         }
 
