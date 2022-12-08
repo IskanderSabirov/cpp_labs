@@ -19,15 +19,19 @@ void read_txt(FILE *f, intrusive_list *list) {
 void read_bin(FILE *f, intrusive_list *l) {
     int x[2] = {0, 0}, i = 0;
     while (fread(&(x[i]), 3, 1, f)) {
+
         if (x[i] > 0x7FFFFF) {
             x[i] = x[i] - 0x1000000;
         }
+
         i = 1 - i;
+
         if (i == 0) {
             add_point(l, x[0], x[1]);
             x[0] = 0;
             x[1] = 0;
         }
+
     }
 }
 
