@@ -30,6 +30,9 @@ void read_bin(FILE *f, intrusive_list *l) {
     }
 
     add_point(l, x, y);
+
+    x=0;
+    y=0;
 }
 
 void write_txt(FILE *f, intrusive_list *l) {
