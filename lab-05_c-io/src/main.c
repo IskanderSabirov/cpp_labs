@@ -18,14 +18,17 @@ void read_txt(FILE *f, intrusive_list *list) {
 
 void read_bin(FILE *f, intrusive_list *l) {
     int x[2] = {0, 0}, i = 0;
-    while (fread(&(x[i]), 3, 1, f) == 1) {
+    while (fread(&(x[i]), 3, 1, f)) {
         if (x[i] > 8388607) {
             x[i] = x[i] - 16777216;
         }
         i = 1 - i;
+        if (i == 0) {
+            add_point(l, x[0], x[1]);
+            x[0] = 0;
+            x[1] = 0;
+        }
     }
-
-    add_point(l, x[0], x[1]);
 }
 
 
@@ -80,7 +83,6 @@ int main(int argc, char *argv[]) {
         read_bin(f, &l);
         fclose(f);
     }
-
     if ((argc > 2) && (strcmp(argv[3], "count") == 0)) {
         int s = 0;
         get_len(&l, &s);
