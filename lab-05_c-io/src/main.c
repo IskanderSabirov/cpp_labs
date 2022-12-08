@@ -18,21 +18,22 @@ void read_txt(FILE *f, intrusive_list *list) {
 
 void read_bin(FILE *f, intrusive_list *l) {
     int x, y;
+    while (fread(&(x), 3, 1, f)) {
 
-    fread(&(x), 3, 1, f);
-    if (x > 0x7FFFFF) {
-        x = x - 0x1000000;
+        if (x > 0x7FFFFF) {
+            x = x - 0x1000000;
+        }
+
+        (fread(&(y), 3, 1, f));
+        if (y > 0x7FFFFF) {
+            y = y - 0x1000000;
+        }
+
+        add_point(l, x, y);
+
+        x = 0;
+        y = 0;
     }
-
-    fread(&(y), 3, 1, f);
-    if (y > 0x7FFFFF) {
-        y = y - 0x1000000;
-    }
-
-    add_point(l, x, y);
-
-    x=0;
-    y=0;
 }
 
 void write_txt(FILE *f, intrusive_list *l) {
