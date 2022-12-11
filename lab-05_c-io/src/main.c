@@ -50,18 +50,8 @@ void write_bin(FILE *f, intrusive_list *l) {
     while (cur) {
 
         point *p = container_of(cur, point, node);
-        if ((p->x) >= 0) {
-            fwrite(&(p->x), 3, 1, f);
-        } else {
-            int k = 0x1000000 + (p->x);
-            fwrite(&k, 3, 1, f);
-        }
-        if ((p->y) >= 0) {
-            fwrite(&(p->y), 3, 1, f);
-        } else {
-            int k = 0x1000000 + (p->y);
-            fwrite(&k, 3, 1, f);
-        }
+        fwrite(&p->x, 3, 1, f);
+        fwrite(&p->y, 3, 1, f);
 
         cur = cur->next;
     }
@@ -85,23 +75,29 @@ int main(int argc, char *argv[]) {
         read_bin(f, &l);
         fclose(f);
     }
-    if ((argc > 2) && (strcmp(argv[3], "count") == 0)) {
+
+    if (argc <= 2) {
+        remove_all_points(&l);
+        return 0;
+    }
+
+    if (strcmp(argv[3], "count") == 0) {
         int s = 0;
         get_len(&l, &s);
         printf("%d\n", s);
     }
 
-    if ((argc > 2) && (strcmp(argv[3], "print") == 0)) {
+    if (strcmp(argv[3], "print") == 0) {
         show_all_points(&l, argv[4]);
     }
 
-    if ((argc > 2) && (strcmp(argv[3], "savetext") == 0)) {
+    if (strcmp(argv[3], "savetext") == 0) {
         FILE *f = fopen(argv[4], "w");
         write_txt(f, &l);
         fclose(f);
     }
 
-    if ((argc > 2) && (strcmp(argv[3], "savebin") == 0)) {
+    if (strcmp(argv[3], "savebin") == 0) {
         FILE *f = fopen(argv[4], "w");
         write_bin(f, &l);
         fclose(f);
