@@ -13,15 +13,18 @@ int main(int argc, char **argv) {
         printf("%s ", argv[i]);
 
     if (argc != 8 || strcmp("crop-rotate", argv[1]) != 0) {
-        return 0;
+        return 1;
     }
 
     bmp_t bmp;
 
     if (load_bmp(&bmp, argv[2])) {
-        return 0;
+        return 1;
     }
 
+    if (bmp.dib_header->bit_count != 24) {
+        return 1;
+    }
 
     int32_t x = atoi(argv[4]);
     int32_t y = atoi(argv[5]);
@@ -31,19 +34,19 @@ int main(int argc, char **argv) {
     int32_t H = bmp.dib_header->height;
 
     if ((x < 0) || (y < 0) || (w < 0) || (h < 0) || (w + x > W) || (h + y > H)) {
-        return 0;
+        return 1;
     }
 
     if (crop_bmp(&bmp, x, y, w, h)) {
-        return 0;
+        return 1;
     }
 
     if (rotate_bmp(&bmp)) {
-        return 0;
+        return 1;
     }
 
     if (save_bmp(&bmp, argv[3])) {
-        return 0;
+        return 1;
     }
 
     free_bmp(&bmp);
