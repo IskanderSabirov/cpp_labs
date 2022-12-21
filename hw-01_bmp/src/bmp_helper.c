@@ -90,8 +90,10 @@ int crop_bmp(bmp_t *image, int32_t x, int32_t y, int32_t w, int32_t h) {
     started_p += pixel_size * x + (image->dib_header->height - y - h) * started_len;
 
     for (int32_t i = 0; i < h; i++) {
-        for (int32_t j = 0; j < get_padding(w); j++) {
-            new_pixels[i * cropped_len + j] = started_p[i * started_len + j];
+        for (int32_t j = 0; j < w; j++) {
+            for (int32_t p = 0; p < pixel_size; p++) {
+                new_pixels[i * cropped_len + j * pixel_size + p] = started_p[i * started_len + j * pixel_size + p];
+            }
         }
     }
 
