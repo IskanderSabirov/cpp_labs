@@ -19,11 +19,11 @@ int main(int argc, char **argv) {
     bmp_t bmp;
 
     if (load_bmp(&bmp, argv[2])) {
-        return 1;
+        return 2;
     }
 
     if (bmp.dib_header->bit_count != 24) {
-        return 1;
+        return 3;
     }
 
     int32_t x = atoi(argv[4]);
@@ -34,19 +34,19 @@ int main(int argc, char **argv) {
     int32_t H = bmp.dib_header->height;
 
     if ((x < 0) || (y < 0) || (w < 0) || (h < 0) || (w + x > W) || (h + y > H)) {
-        return 1;
+        return 4;
     }
 
     if (crop_bmp(&bmp, x, y, w, h)) {
-        return 1;
+        return 5;
     }
 
     if (rotate_bmp(&bmp)) {
-        return 1;
+        return 6;
     }
 
     if (save_bmp(&bmp, argv[3])) {
-        return 1;
+        return 7;
     }
 
     free_bmp(&bmp);
