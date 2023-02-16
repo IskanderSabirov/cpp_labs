@@ -63,7 +63,7 @@ void MyVector::resize(std::size_t new_size) {
     int *t = new int[max_capacity];
 
     for (size_t i = 0; i < max_capacity; i++) {
-        if (i < _capacity) {
+        if (i <= _size) {
             t[i] = _data[i];
         } else {
             t[i] = 0;
@@ -76,11 +76,11 @@ void MyVector::resize(std::size_t new_size) {
 }
 
 void MyVector::push_back(int value) {
-    if (_size == _capacity - 1) {
-        int *t = new int[_capacity + 1];
+    if (_size == _capacity) {
+        int *t = new int[_capacity * 2];
 
-        for (size_t i = 0; i < _capacity + 1; i++) {
-            if (i < _capacity) {
+        for (size_t i = 0; i < _capacity * 2; i++) {
+            if (i <= _capacity) {
                 t[i] = _data[i];
             } else {
                 t[i] = 0;
@@ -89,7 +89,7 @@ void MyVector::push_back(int value) {
 
         delete[] _data;
         _data = t;
-        _capacity++;
+        _capacity *= 2;
     }
 
     _data[_size] = value;
@@ -98,8 +98,8 @@ void MyVector::push_back(int value) {
 
 void MyVector::insert(std::size_t index, int value) {
 
-    if (_size == _capacity - 1)
-        reserve(_capacity + 1);
+    if (_size == _capacity)
+        reserve(_capacity * 2);
 
     for (std::size_t i = _size - 1; i > index; i++)
         _data[i] = _data[i - 1];
