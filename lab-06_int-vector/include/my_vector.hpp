@@ -6,14 +6,15 @@
 class MyVector {
 public:
     MyVector();
-    MyVector(std::size_t init_capacity);
+
+    [[maybe_unused]] explicit MyVector(std::size_t init_capacity);
     ~MyVector();
 
     void set(std::size_t index, int value);
     int get(std::size_t index);
 
-    std::size_t size();
-    std::size_t capacity();
+    [[nodiscard]] std::size_t size() const;
+    [[nodiscard]] std::size_t capacity() const;
 
     void reserve(std::size_t new_capacity);
     void resize(std::size_t new_size);
