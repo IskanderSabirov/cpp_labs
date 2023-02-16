@@ -41,7 +41,7 @@ void MyVector::reserve(std::size_t new_capacity) {
     int *t = new int[new_capacity];
 
     for (size_t i = 0; i < new_capacity; i++) {
-        if (i < _capacity) {
+        if (i < _size) {
             t[i] = _data[i];
         } else {
             t[i] = 0;
@@ -63,7 +63,7 @@ void MyVector::resize(std::size_t new_size) {
     int *t = new int[max_capacity];
 
     for (size_t i = 0; i < max_capacity; i++) {
-        if (i <= _size) {
+        if (i < _size) {
             t[i] = _data[i];
         } else {
             t[i] = 0;
@@ -73,6 +73,7 @@ void MyVector::resize(std::size_t new_size) {
     delete[] _data;
     _data = t;
     _capacity = max_capacity;
+    _size = _capacity;
 }
 
 void MyVector::push_back(int value) {
@@ -101,7 +102,7 @@ void MyVector::insert(std::size_t index, int value) {
     if (_size == _capacity)
         reserve(_capacity * 2);
 
-    for (std::size_t i = _size - 1; i > index; i++)
+    for (std::size_t i = _size; i > index; i--)
         _data[i] = _data[i - 1];
 
     _size++;
@@ -122,5 +123,4 @@ void MyVector::erase(std::size_t index) {
     delete[]_data;
     _data = t;
     _size--;
-    _capacity++;
 }
