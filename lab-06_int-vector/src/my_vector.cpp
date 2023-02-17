@@ -1,5 +1,4 @@
 #include "my_vector.hpp"
-#include <memory>
 
 MyVector::MyVector() {
     _data = new int[2];
@@ -14,7 +13,7 @@ MyVector::MyVector() {
 }
 
 MyVector::~MyVector() {
-    delete[]_data;
+    delete[] _data;
 }
 
 void MyVector::set(std::size_t index, int value) {
@@ -40,13 +39,8 @@ void MyVector::reserve(std::size_t new_capacity) {
 
     int *t = new int[new_capacity];
 
-    for (size_t i = 0; i < new_capacity; i++) {
-        if (i < _size) {
-            t[i] = _data[i];
-        } else {
-            t[i] = 0;
-        }
-    }
+    for (size_t i = 0; i < _size; i++)
+        t[i] = _data[i];
 
     delete[] _data;
     _data = t;
@@ -55,20 +49,17 @@ void MyVector::reserve(std::size_t new_capacity) {
 
 void MyVector::resize(std::size_t new_size) {
 
-    if (new_size < _capacity)
+    if (new_size < _capacity) {
+        _size = new_size;
         return;
+    }
 
     std::size_t max_capacity = (_capacity * 2 > new_size) ? _capacity * 2 : new_size;
 
     int *t = new int[max_capacity];
 
-    for (size_t i = 0; i < max_capacity; i++) {
-        if (i < _size) {
-            t[i] = _data[i];
-        } else {
-            t[i] = 0;
-        }
-    }
+    for (size_t i = 0; i < max_capacity; i++)
+        t[i] = (i < _size) ? _data[i] : 0;
 
     delete[] _data;
     _data = t;
@@ -80,13 +71,8 @@ void MyVector::push_back(int value) {
     if (_size == _capacity) {
         int *t = new int[_capacity * 2];
 
-        for (size_t i = 0; i < _capacity * 2; i++) {
-            if (i <= _capacity) {
-                t[i] = _data[i];
-            } else {
-                t[i] = 0;
-            }
-        }
+        for (size_t i = 0; i < _capacity * 2; i++)
+            t[i] = (i < _capacity) ? _data[i] : 0;
 
         delete[] _data;
         _data = t;
