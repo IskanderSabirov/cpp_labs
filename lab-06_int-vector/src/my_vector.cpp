@@ -97,16 +97,10 @@ void MyVector::insert(std::size_t index, int value) {
 
 void MyVector::erase(std::size_t index) {
 
-    int *t = new int[_capacity - 1];
-
-    for (std::size_t i = 0; i < _capacity; i++) {
-        if (i < index)
-            t[i] = _data[i];
-        if (i > index)
-            t[i - 1] = _data[i];
+    for (std::size_t i = index; i < _capacity - 1; i++) {
+        _data[i] = _data[i + 1];
     }
 
-    delete[]_data;
-    _data = t;
+    _capacity--;
     _size--;
 }
