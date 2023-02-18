@@ -6,6 +6,28 @@ MyVector::MyVector() {
     _size = 0;
 }
 
+MyVector::MyVector(const MyVector &vector) {
+    _size = vector._size;
+    _capacity = vector._capacity;
+    _data = new int[_capacity];
+    for (std::size_t i = 0; i < _size; i++)
+        _data[i] = vector._data[i];
+}
+
+void MyVector::operator=(const MyVector &vector) {
+
+    if (&vector == this)
+        return;
+
+    delete[] _data;
+    _size = vector._size;
+    _capacity = vector._capacity;
+    _data = new int[_capacity];
+
+    for (std::size_t i = 0; i < _size; i++)
+        _data[i] = vector._data[i];
+}
+
 [[maybe_unused]] MyVector::MyVector(std::size_t init_capacity) {
     _data = new int[init_capacity];
     _capacity = init_capacity;

@@ -6,7 +6,9 @@
 class MyVector {
 public:
     MyVector();
+    MyVector(const MyVector& vector);
 
+    void operator = (const MyVector& vector);
     [[maybe_unused]] explicit MyVector(std::size_t init_capacity);
     ~MyVector();
 
