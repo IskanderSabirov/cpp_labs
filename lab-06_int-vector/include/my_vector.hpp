@@ -2,6 +2,7 @@
 #define _MY_VECTOR_H_INCLUDED
 
 #include <cstddef>
+#include <stdexcept>
 
 class MyVector {
 public:

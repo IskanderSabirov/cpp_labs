@@ -39,10 +39,16 @@ MyVector::~MyVector() {
 }
 
 void MyVector::set(std::size_t index, int value) {
+    if (index >= _size)
+        throw std::runtime_error("Invalid index");
+
     _data[index] = value;
 }
 
 int MyVector::get(std::size_t index) {
+    if (index >= _size)
+        throw std::runtime_error("Invalid index");
+
     return _data[index];
 }
 
@@ -107,6 +113,9 @@ void MyVector::push_back(int value) {
 
 void MyVector::insert(std::size_t index, int value) {
 
+    if (index >= _size)
+        throw std::runtime_error("Invalid index");
+
     if (_size == _capacity)
         reserve(_capacity * 2);
 
@@ -118,6 +127,9 @@ void MyVector::insert(std::size_t index, int value) {
 }
 
 void MyVector::erase(std::size_t index) {
+
+    if (index >= _size)
+        throw std::runtime_error("Invalid index");
 
     for (std::size_t i = index; i < _capacity - 1; i++) {
         _data[i] = _data[i + 1];
