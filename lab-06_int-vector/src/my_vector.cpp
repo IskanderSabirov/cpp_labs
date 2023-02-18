@@ -113,7 +113,7 @@ void MyVector::push_back(int value) {
 
 void MyVector::insert(std::size_t index, int value) {
 
-    if (index >= _size)
+    if (index > _size)
         throw std::runtime_error("Invalid index");
 
     if (_size == _capacity)
