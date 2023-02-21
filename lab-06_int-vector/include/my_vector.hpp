@@ -2,18 +2,22 @@
 #define _MY_VECTOR_H_INCLUDED
 
 #include <cstddef>
+#include <stdexcept>
 
 class MyVector {
 public:
     MyVector();
-    MyVector(std::size_t init_capacity);
+    MyVector(const MyVector& vector);
+
+    void operator = (const MyVector& vector);
+    [[maybe_unused]] explicit MyVector(std::size_t init_capacity);
     ~MyVector();
 
     void set(std::size_t index, int value);
     int get(std::size_t index);
 
-    std::size_t size();
-    std::size_t capacity();
+    [[nodiscard]] std::size_t size() const;
+    [[nodiscard]] std::size_t capacity() const;
 
     void reserve(std::size_t new_capacity);
     void resize(std::size_t new_size);
