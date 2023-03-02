@@ -18,16 +18,16 @@ public:
   [[nodiscard]] int get(size_t i, size_t j) const;
   void print(FILE *f) const;
 
-  Matrix operator+(Matrix& m) const;
-  Matrix operator-(Matrix& m) const;
-  Matrix operator*(Matrix& m) const;
+  Matrix operator+(const Matrix& m) const;
+  Matrix operator-(const Matrix& m) const;
+  Matrix operator*(const Matrix& m) const;
 
-  Matrix& operator+=(Matrix& m);
-  Matrix& operator-=(Matrix& m);
-  Matrix& operator*=(Matrix& m);
+  Matrix& operator+=(const Matrix& m);
+  Matrix& operator-=(const Matrix& m);
+  Matrix& operator*=(const Matrix& m);
 
-  bool operator==(Matrix& m) const;
-  bool operator!=(Matrix& m) const;
+  bool operator==(const Matrix& m) const;
+  bool operator!=(const Matrix& m) const;
 private:
   size_t _rows;
   size_t _cols;

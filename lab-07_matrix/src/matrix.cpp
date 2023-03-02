@@ -69,7 +69,7 @@ int Matrix::get(size_t i, size_t j) const {
     return _data[i][j];
 }
 
-Matrix Matrix::operator+(Matrix &m) const {
+Matrix Matrix::operator+(const Matrix &m) const {
     if (this->_rows != m._rows || this->_cols != m._cols)
         throw std::runtime_error("Invalid sizes");
 
@@ -82,7 +82,7 @@ Matrix Matrix::operator+(Matrix &m) const {
     return tmp;
 }
 
-Matrix Matrix::operator-(Matrix &m) const {
+Matrix Matrix::operator-(const Matrix &m) const {
     if (this->_rows != m._rows || this->_cols != m._cols)
         throw std::runtime_error("Invalid sizes");
 
@@ -95,7 +95,7 @@ Matrix Matrix::operator-(Matrix &m) const {
     return tmp;
 }
 
-Matrix Matrix::operator*(Matrix &m) const {
+Matrix Matrix::operator*(const Matrix &m) const {
     if (this->_cols != m._rows)
         throw std::runtime_error("Invalid sizes");
 
@@ -110,22 +110,22 @@ Matrix Matrix::operator*(Matrix &m) const {
     return tmp;
 }
 
-Matrix &Matrix::operator+=(Matrix &m) {
+Matrix &Matrix::operator+=(const Matrix &m) {
     *this = (*this) + m;
     return *this;
 }
 
-Matrix &Matrix::operator-=(Matrix &m) {
+Matrix &Matrix::operator-=(const Matrix &m) {
     *this = (*this) - m;
     return *this;
 }
 
-Matrix &Matrix::operator*=(Matrix &m) {
+Matrix &Matrix::operator*=(const Matrix &m) {
     *this = (*this) * m;
     return *this;
 }
 
-bool Matrix::operator==(Matrix &m) const {
+bool Matrix::operator==(const Matrix &m) const {
     if (this->_rows != m._rows || this->_cols != m._cols)
         return false;
     for (size_t i = 0; i < _rows; i++)
@@ -135,7 +135,7 @@ bool Matrix::operator==(Matrix &m) const {
     return true;
 }
 
-bool Matrix::operator!=(Matrix &m) const {
+bool Matrix::operator!=(const Matrix &m) const {
     return !((*this) == m);
 }
 
