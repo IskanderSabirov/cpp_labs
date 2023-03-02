@@ -102,8 +102,7 @@ Matrix Matrix::operator*(Matrix &m) const {
     Matrix tmp = Matrix(this->_rows, m._cols);
 
     for (size_t i = 0; i < _rows; i++)
-        for (size_t j = 0; j < _rows; j++) {
-            tmp._data[i][j] = 0;
+        for (size_t j = 0; j < m._cols; j++) {
             for (size_t k = 0; k < _cols; k++)
                 tmp._data[i][j] += this->_data[i][k] * m._data[k][j];
         }
