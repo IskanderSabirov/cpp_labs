@@ -25,7 +25,6 @@ Matrix::Matrix(const Matrix &matrix) {
 }
 
 Matrix::~Matrix() {
-//    std::cout << _rows << std::endl;
     for (size_t i = 0; i < _rows; i++)
         delete[] _data[i];
     delete[]_data;
@@ -70,7 +69,7 @@ int Matrix::get(size_t i, size_t j) const {
 }
 
 Matrix Matrix::operator+(const Matrix &m) const {
-    if (this->_rows != m._rows || this->_cols != m._cols)
+    if (_rows != m._rows || _cols != m._cols)
         throw std::runtime_error("Invalid sizes");
 
     Matrix tmp = Matrix(_rows, _cols);
@@ -83,7 +82,7 @@ Matrix Matrix::operator+(const Matrix &m) const {
 }
 
 Matrix Matrix::operator-(const Matrix &m) const {
-    if (this->_rows != m._rows || this->_cols != m._cols)
+    if (_rows != m._rows || _cols != m._cols)
         throw std::runtime_error("Invalid sizes");
 
     Matrix tmp = Matrix(_rows, _cols);
@@ -96,15 +95,15 @@ Matrix Matrix::operator-(const Matrix &m) const {
 }
 
 Matrix Matrix::operator*(const Matrix &m) const {
-    if (this->_cols != m._rows)
+    if (_cols != m._rows)
         throw std::runtime_error("Invalid sizes");
 
-    Matrix tmp = Matrix(this->_rows, m._cols);
+    Matrix tmp = Matrix(_rows, m._cols);
 
     for (size_t i = 0; i < _rows; i++)
         for (size_t j = 0; j < m._cols; j++) {
             for (size_t k = 0; k < _cols; k++)
-                tmp._data[i][j] += this->_data[i][k] * m._data[k][j];
+                tmp._data[i][j] += _data[i][k] * m._data[k][j];
         }
 
     return tmp;
@@ -126,7 +125,7 @@ Matrix &Matrix::operator*=(const Matrix &m) {
 }
 
 bool Matrix::operator==(const Matrix &m) const {
-    if (this->_rows != m._rows || this->_cols != m._cols)
+    if (_rows != m._rows || _cols != m._cols)
         return false;
     for (size_t i = 0; i < _rows; i++)
         for (size_t j = 0; j < _cols; j++)
