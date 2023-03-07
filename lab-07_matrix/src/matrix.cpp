@@ -24,16 +24,20 @@ Matrix::Matrix(const Matrix &matrix) {
             _data[i][j] = matrix._data[i][j];
 }
 
-Matrix::~Matrix() {
+void Matrix::DeleteMatrix() {
     for (size_t i = 0; i < _rows; i++)
         delete[] _data[i];
     delete[]_data;
 }
 
+Matrix::~Matrix() {
+    DeleteMatrix();
+}
+
 Matrix &Matrix::operator=(const Matrix &matrix) {
     if (this == &matrix)
         return *this;
-    Matrix::~Matrix();
+    DeleteMatrix();
     _rows = matrix._rows;
     _cols = matrix._cols;
     _data = new int *[_rows];
@@ -55,15 +59,15 @@ size_t Matrix::get_cols() const {
 }
 
 void Matrix::set(size_t i, size_t j, int val) {
-    if (i >= _rows || (int) i < 0 || (int) j < 0 || j >= _cols)
-        throw std::runtime_error("Invalid indexes");
+    if (i >= _rows || j >= _cols)
+        throw std::runtime_error("Invalid indices ");
 
     _data[i][j] = val;
 }
 
 int Matrix::get(size_t i, size_t j) const {
-    if (i >= _rows || (int) i < 0 || (int) j < 0 || j >= _cols)
-        throw std::runtime_error("Invalid indexes");
+    if (i >= _rows || j >= _cols)
+        throw std::runtime_error("Invalid indices ");
 
     return _data[i][j];
 }
@@ -72,7 +76,7 @@ Matrix Matrix::operator+(const Matrix &m) const {
     if (_rows != m._rows || _cols != m._cols)
         throw std::runtime_error("Invalid sizes");
 
-    Matrix tmp = Matrix(_rows, _cols);
+    Matrix tmp(_rows, _cols);
 
     for (size_t i = 0; i < _rows; i++)
         for (size_t j = 0; j < _cols; j++)

@@ -5,6 +5,8 @@
 #include <cstddef>
 
 class Matrix {
+private :
+    void DeleteMatrix();
 public:
   Matrix(size_t r, size_t c);
   Matrix(const Matrix& matrix);
