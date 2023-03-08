@@ -5,25 +5,31 @@
 #include <cstddef>
 
 class Matrix {
+private :
+    void DeleteMatrix();
 public:
   Matrix(size_t r, size_t c);
+  Matrix(const Matrix& matrix);
+  Matrix& operator=(const Matrix& matrix);
+  ~Matrix();
 
-  size_t get_rows();
-  size_t get_cols();
+  [[nodiscard]] size_t get_rows() const;
+  [[nodiscard]] size_t get_cols() const;
+
   void set(size_t i, size_t j, int val);
-  int get(size_t i, size_t j);
-  void print(FILE *f);
+  [[nodiscard]] int get(size_t i, size_t j) const;
+  void print(FILE *f) const;
 
-  Matrix operator+(Matrix& m);
-  Matrix operator-(Matrix& m);
-  Matrix operator*(Matrix& m);
+  Matrix operator+(const Matrix& m) const;
+  Matrix operator-(const Matrix& m) const;
+  Matrix operator*(const Matrix& m) const;
 
-  Matrix& operator+=(Matrix& m);
-  Matrix& operator-=(Matrix& m);
-  Matrix& operator*=(Matrix& m);
+  Matrix& operator+=(const Matrix& m);
+  Matrix& operator-=(const Matrix& m);
+  Matrix& operator*=(const Matrix& m);
 
-  bool operator==(Matrix& m);
-  bool operator!=(Matrix& m);
+  bool operator==(const Matrix& m) const;
+  bool operator!=(const Matrix& m) const;
 private:
   size_t _rows;
   size_t _cols;
