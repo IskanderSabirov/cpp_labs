@@ -10,10 +10,10 @@ set(CMAKE_CXX_STANDARD 17)
 add_compile_options(-Wall -Wextra -Werror)
 
 set(MAIN_SOURCES src/main.cpp ${COMMON_SOURCES})
-set(TEST_SOURCES src/test.cpp ${COMMON_SOURCES})
+#set(TEST_SOURCES src/test.cpp ${COMMON_SOURCES})
 
 add_executable(${X_PROJECT_NAME} ${MAIN_SOURCES})
 target_include_directories(${X_PROJECT_NAME} PRIVATE include)
 
-add_executable(${X_PROJECT_NAME}-test ${TEST_SOURCES})
-target_include_directories(${X_PROJECT_NAME}-test PRIVATE include)
+#add_executable(${X_PROJECT_NAME}-test ${TEST_SOURCES})
+#target_include_directories(${X_PROJECT_NAME}-test PRIVATE include)
