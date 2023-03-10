@@ -11,6 +11,7 @@ shared_ptr::shared_ptr(const shared_ptr &other) {
 }
 
 shared_ptr &shared_ptr::operator=(shared_ptr other) {
+    //чтобы не делать лишнее
     if (this == &other)
         return *this;
     // можно было бы и просто вызвать ~shared_ptr, но вдруг он наследуется от другого класса и вызовется родительский деструктор
