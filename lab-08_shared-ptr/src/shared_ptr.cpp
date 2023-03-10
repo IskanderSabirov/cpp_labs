@@ -1,15 +1,18 @@
+#include <algorithm>
 #include "shared_ptr.hpp"
 
 shared_ptr::shared_ptr(Matrix *obj) {
     storage_ = new Storage(obj);
 }
 
-shared_ptr::(const shared_ptr &other) {
+shared_ptr::shared_ptr(const shared_ptr &other) {
     storage_ = other.storage_;
     storage_->incr();
 }
 
 shared_ptr &shared_ptr::operator=(shared_ptr other) {
+    if (this == &other)
+        return *this;
     // можно было бы и просто вызвать ~shared_ptr, но вдруг он наследуется от другого класса и вызовется родительский деструктор
     // по опыту прошлой лабы
     shared_ptr tmp_ptr = shared_ptr(other);
@@ -28,7 +31,7 @@ Matrix *shared_ptr::ptr() const {
 }
 
 bool shared_ptr::isNull() const {
-    return (storage_->getObject() == nullptr)
+    return (storage_->getObject() == nullptr);
 }
 
 void shared_ptr::reset(Matrix *obj) {
@@ -44,28 +47,27 @@ Matrix &shared_ptr::operator*() const {
     return *storage_->getObject();
 }
 
-Storage::Storage(Matrix *mtx) {
+shared_ptr::Storage::Storage(Matrix *mtx) {
     data_ = mtx;
     ref_count_ = 1;
 }
 
-Storage::~Storage() {
+shared_ptr::Storage::~Storage() {
     delete (data_);
 }
 
-void Storage::incr() {
+void shared_ptr::Storage::incr() {
     ++ref_count_;
 }
 
-void Storage::decr() {
+void shared_ptr::Storage::decr() {
     --ref_count_;
 }
 
-int Storage::etCounter() const {
+int shared_ptr::Storage::getCounter() const {
     return ref_count_;
 }
 
-Matrix *Storage::getObject() {
+Matrix *shared_ptr::Storage::getObject() const {
     return data_;
 }
-
