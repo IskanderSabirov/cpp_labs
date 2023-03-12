@@ -14,7 +14,7 @@ Matrix::Matrix(size_t r, size_t c) {
 }
 
 Matrix::~Matrix() {
-    DeleteMatrix();
+    DeleteMatrixData();
 }
 
 size_t Matrix::get_rows() const {
@@ -67,7 +67,7 @@ Matrix::Matrix(const Matrix &matrix) {
 Matrix &Matrix::operator=(const Matrix &matrix) {
     if (this == &matrix)
         return *this;
-    DeleteMatrix();
+    DeleteMatrixData();
     _rows = matrix._rows;
     _cols = matrix._cols;
     _data = new int *[_rows];
@@ -80,7 +80,7 @@ Matrix &Matrix::operator=(const Matrix &matrix) {
     return *this;
 }
 
-void Matrix::DeleteMatrix() {
+void Matrix::DeleteMatrixData() {
     for (size_t i = 0; i < _rows; i++)
         delete[] _data[i];
     delete[]_data;

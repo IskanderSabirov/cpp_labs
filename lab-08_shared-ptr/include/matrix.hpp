@@ -18,7 +18,7 @@ public:
 private:
     Matrix(const Matrix& that);
     Matrix& operator=(const Matrix& that);
-    void  DeleteMatrix();
+    void  DeleteMatrixData();
 
 private:
     std::size_t _rows;

@@ -11,13 +11,9 @@ shared_ptr::shared_ptr(const shared_ptr &other) {
 }
 
 shared_ptr &shared_ptr::operator=(shared_ptr other) {
-    //чтобы не делать лишнее
-    if (this == &other)
-        return *this;
     // можно было бы и просто вызвать ~shared_ptr, но вдруг он наследуется от другого класса и вызовется родительский деструктор
     // по опыту прошлой лабы
-    shared_ptr tmp_ptr = shared_ptr(other);
-    std::swap(storage_, tmp_ptr.storage_);
+    std::swap(storage_, other.storage_);
     return *this;
 }
 
@@ -36,15 +32,21 @@ bool shared_ptr::isNull() const {
 }
 
 void shared_ptr::reset(Matrix *obj) {
-    shared_ptr tmp_ptr = shared_ptr(obj);
+    if (obj == storage_->getObject())
+        return;
+    shared_ptr tmp_ptr(obj);
     std::swap(storage_, tmp_ptr.storage_);
 }
 
 Matrix *shared_ptr::operator->() const {
+    if (storage_->getObject() == nullptr)
+        throw std::exception();
     return storage_->getObject();
 }
 
 Matrix &shared_ptr::operator*() const {
+    if (storage_->getObject() == nullptr)
+        throw std::exception();
     return *storage_->getObject();
 }
 
