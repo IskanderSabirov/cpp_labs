@@ -37,6 +37,7 @@ void Scheme::remove_figure(int id) { // элементы смещаются вл
 void Scheme::print_all_figures() {
     for (int i = 0; i < figures_count_; i++) {
         figures_[i]->print();
+        if (i != figures_count_ - 1) printf("\n");
     }
 }
 
