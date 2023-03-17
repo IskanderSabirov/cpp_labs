@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-set(X_PROJECT_NAME lab-09_figure)
+set(X_PROJECT_NAME lab-09_figures)
 set(COMMON_SOURCES src/Rectangle.cpp src/Scheme.cpp src/Figure.cpp src/Circle.cpp include/Scheme.hpp include/Rectangle.hpp include/Figure.hpp include/Circle.hpp)
 
 project(${X_PROJECT_NAME} CXX)

@@ -7,9 +7,7 @@ Scheme::Scheme(int capacity) {
 }
 
 Scheme::~Scheme() {
-    for (int i = 0; i < figures_count_; i++)
-        delete figures_[i];
-    delete figures_;
+    delete[] figures_;
 }
 
 void Scheme::push_back_figure(Figure *fg) {
@@ -59,7 +57,7 @@ Figure *Scheme::is_inside_figure(int x, int y) { // если внутри нес
     return nullptr;
 }
 
-void Scheme::move(int id, int new_x, int new_y) {
+[[maybe_unused]] void Scheme::move(int id, int new_x, int new_y) {
     for (int i = 0; i < figures_count_; i++) {
         if (id == figures_[i]->get_id()) {
             figures_[i]->move(new_x, new_y);

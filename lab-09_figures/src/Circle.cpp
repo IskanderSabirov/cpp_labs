@@ -9,7 +9,7 @@ Circle::Circle(int id, int x, int y, int radius, const char *label) : Figure(id,
 }
 
 Circle::~Circle() {
-    delete label_;
+    delete[] label_;
 }
 
 void Circle::print() const {
