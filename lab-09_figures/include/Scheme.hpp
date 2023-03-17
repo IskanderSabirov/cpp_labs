@@ -1,10 +1,11 @@
 #pragma once
 
 #include "Figure.hpp"
+#include <stdexcept>
 
 class Scheme {
 public:
-    Scheme(int capacity); 
+    explicit Scheme(int capacity);
     ~Scheme();
 
     void push_back_figure(Figure* fg);
@@ -17,6 +18,7 @@ public:
 
 private:
     // ...
-
+    int figures_count_;
+    int capacity_;
     Figure** figures_; // размер массива задается в конструкторе и больше не растет
 };
