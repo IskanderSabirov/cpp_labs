@@ -17,7 +17,7 @@ void Circle::print() const {
 }
 
 bool Circle::is_inside(int x, int y) const {
-    return (this->x - x) * (this->x - x) + (this->y - y) * (this->y - y) <= radius_;
+    return (this->x - x) * (this->x - x) + (this->y - y) * (this->y - y) <= radius_*radius_;
 }
 
 void Circle::zoom(int factor) {
