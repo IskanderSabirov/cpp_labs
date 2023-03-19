@@ -1,10 +1,12 @@
 #include <cstdio>
+#include <stdexcept>
 #include "Rectangle.hpp"
 
 Rectangle::Rectangle(int id, int x, int y, int width, int height) : Figure(id, x, y) {
+    if (width < 0 || height < 0)
+        throw std::runtime_error("Invalid sizes of rectangle");
     width_ = width;
     height_ = height;
-
 }
 
 void Rectangle::print() const {

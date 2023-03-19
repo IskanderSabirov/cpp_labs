@@ -1,6 +1,8 @@
 #include "Scheme.hpp"
 
 Scheme::Scheme(int capacity) {
+    if(capacity<0)
+        throw std::runtime_error("Invalid capacity of scheme");
     figures_ = new Figure *[capacity];
     figures_count_ = 0;
     capacity_ = capacity;
@@ -13,6 +15,8 @@ Scheme::~Scheme() {
 }
 
 void Scheme::push_back_figure(Figure *fg) {
+    if(fg== nullptr)
+        throw std::runtime_error("Invalid figure pointer");
     if (figures_count_ == capacity_)
         throw std::runtime_error("Invalid indices ");
     figures_[figures_count_++] = fg;
