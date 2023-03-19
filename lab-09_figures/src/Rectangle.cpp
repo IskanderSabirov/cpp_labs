@@ -19,6 +19,8 @@ bool Rectangle::is_inside(int x, int y) const {
 }
 
 void Rectangle::zoom(int factor) {
+    if (factor < 0)
+        throw std::runtime_error("Invalid label pointer");
     width_ *= factor;
     height_ *= factor;
 }

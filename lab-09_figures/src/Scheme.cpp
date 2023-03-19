@@ -45,6 +45,7 @@ void Scheme::print_all_figures() {
 }
 
 void Scheme::zoom_figure(int id, int factor) {
+    // в случае если factor<0 выбросит исключение при попытке вызвать метод
     for (int i = 0; i < figures_count_; i++) {
         if (id == figures_[i]->get_id()) {
             figures_[i]->zoom(factor);
