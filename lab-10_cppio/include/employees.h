@@ -9,12 +9,13 @@
 
 class Employee {
 protected:
-    int32_t base_salary_;
+    int32_t base_salary_{};
     std::string name_;
-private:
     virtual void print(std::ostream &ostream) const =0;
+    virtual void read(std::istream &istream) =0;
 public :
     Employee(const std::string& name, int32_t base_salary);
+    Employee() = default;
     virtual ~Employee() = default;
     [[nodiscard]] virtual int32_t salary() const = 0;
 
@@ -29,10 +30,12 @@ public :
 class Developer : public Employee {
 public:
     Developer(const std::string& name, int32_t base_salary, int32_t bonus);
+    Developer() = default;
     [[nodiscard]] int32_t salary() const override;
 private:
-    bool has_bonus_;
+    bool has_bonus_{};
     void print(std::ostream &ostream) const override;
+    void read(std::istream &istream) override;
 };
 
 ///
@@ -40,11 +43,13 @@ private:
 class SalesManager :Employee {
 public:
     SalesManager(const std::string& name, int32_t base_salary, int32_t sold_items, int32_t item_price);
+    SalesManager() = default;
     [[nodiscard]] int32_t salary() const override;
 private:
-    int32_t sold_number_;
-    int32_t item_price_;
+    int32_t sold_number_{};
+    int32_t item_price_{};
     void print(std::ostream &ostream) const override;
+    void read(std::istream &istream) override;
 };
 
 ///

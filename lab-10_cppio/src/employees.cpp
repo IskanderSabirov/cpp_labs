@@ -29,6 +29,17 @@ void Developer::print(std::ostream &ostream) const {
     ostream << "Has bonus: " << (has_bonus_ ? '+' : '-') << std::endl;
 }
 
+void Developer::read(std::istream &istream) {
+    std::string name;
+    int32_t salary, bonus;
+    std::cin >> name >> salary >> bonus;
+    if (salary < 0 || (bonus != 0 && bonus != 1))
+        throw std::runtime_error("Invalid data for developer");
+    name_ = name;
+    base_salary_ = salary;
+    has_bonus_ = (bonus == 1);
+}
+
 /// Sales Manager
 
 SalesManager::SalesManager(const std::string &name, int32_t base_salary, int32_t s_items, int32_t i_price) : Employee(
@@ -49,6 +60,18 @@ void SalesManager::print(std::ostream &ostream) const {
     ostream << "Base Salary: " << base_salary_ << std::endl;
     ostream << "Sold items: " << sold_number_ << std::endl;
     ostream << "Item price: " << item_price_ << std::endl;
+}
+
+void SalesManager::read(std::istream &istream) {
+    std::string name;
+    int32_t salary, sold, price;
+    std::cin >> name >> salary >> sold >> price;
+    if (salary < 0 || price < 0 || sold < 0)
+        throw std::runtime_error("Invalid data for sales manager");
+    name_ = name;
+    base_salary_ = salary;
+    sold_number_ = sold;
+    item_price_ = price;
 }
 
 /// EmployeesArray
@@ -91,6 +114,7 @@ std::ostream &operator<<(std::ostream &ostream, const Employee &e) {
 }
 
 std::istream &operator>>(std::istream &istream, Employee &e) {
+    e.read(istream);
     return istream;
 }
 
