@@ -12,7 +12,9 @@ protected:
     int32_t base_salary_{};
     std::string name_;
     virtual void print(std::ostream &ostream) const =0;
+    virtual void print(std::ofstream &ofstream) const =0;
     virtual void read(std::istream &istream) =0;
+//    virtual void read(std::ifstream &istream) =0;
 public :
     Employee(const std::string& name, int32_t base_salary);
     Employee() = default;
@@ -35,7 +37,9 @@ public:
 private:
     bool has_bonus_{};
     void print(std::ostream &ostream) const override;
+    void print(std::ofstream &ofstream) const override;
     void read(std::istream &istream) override;
+//    void read(std::ifstream &istream) override;
 };
 
 ///
@@ -49,7 +53,9 @@ private:
     int32_t sold_number_{};
     int32_t item_price_{};
     void print(std::ostream &ostream) const override;
+    void print(std::ofstream &ofstream) const override;
     void read(std::istream &istream) override;
+//    void read(std::ifstream &istream) override;
 };
 
 ///
@@ -66,9 +72,23 @@ public:
 
     friend std::ostream& operator<<(std::ostream& ostream, const EmployeesArray& employeesArray);
 
+    friend std::ofstream &operator<<(std::ofstream &ofstream, const EmployeesArray &employeesArray);
 private:
     int32_t size_;
     std::vector<Employee*> employees_;
 };
+
+///
+std::ostream &operator<<(std::ostream &ostream, const Employee &e);
+
+std::istream &operator>>(std::istream &istream, Employee &e);
+
+std::ofstream &operator<<(std::ofstream &ofstream, const Employee &e);
+
+std::ifstream &operator>>(std::ifstream &ifstream, Employee &e);
+
+std::ostream &operator<<(std::ostream &ostream, const EmployeesArray &employeesArray);
+
+std::ofstream &operator<<(std::ofstream &ofstream, const EmployeesArray &employeesArray);
 
 #endif

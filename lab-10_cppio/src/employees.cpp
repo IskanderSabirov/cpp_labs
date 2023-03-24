@@ -1,5 +1,6 @@
 #include <stdexcept>
 #include "employees.h"
+#include "bin_manip.h"
 
 Employee::Employee(const std::string &name, int32_t base_salary) {
     name_ = name;
@@ -27,6 +28,11 @@ void Developer::print(std::ostream &ostream) const {
     ostream << "Name: " << name_ << std::endl;
     ostream << "Base Salary: " << base_salary_ << std::endl;
     ostream << "Has bonus: " << (has_bonus_ ? '+' : '-') << std::endl;
+}
+
+void Developer::print(std::ofstream &ofstream) const {
+    ofstream << write_le_int32(1) << write_string(name_);
+    ofstream << write_le_int32(base_salary_) << write_bool(has_bonus_);
 }
 
 void Developer::read(std::istream &istream) {
@@ -62,6 +68,12 @@ void SalesManager::print(std::ostream &ostream) const {
     ostream << "Item price: " << item_price_ << std::endl;
 }
 
+void SalesManager::print(std::ofstream &ofstream) const {
+    ofstream << write_le_int32(2) << write_string(name_);
+    ofstream << write_le_int32(base_salary_) << write_le_int32(sold_number_);
+    ofstream << write_le_int32(item_price_);
+}
+
 void SalesManager::read(std::istream &istream) {
     std::string name;
     int32_t salary, sold, price;
@@ -76,7 +88,7 @@ void SalesManager::read(std::istream &istream) {
 
 /// EmployeesArray
 
-[[maybe_unused]] EmployeesArray::EmployeesArray(int32_t size) {
+EmployeesArray::EmployeesArray(int32_t size) {
     if (size < 0)
         throw std::runtime_error("Invalid size for employees array");
     employees_ = std::vector<Employee *>(size);
@@ -94,12 +106,12 @@ EmployeesArray::~EmployeesArray() {
         delete employees_[i];
 }
 
-[[maybe_unused]] void EmployeesArray::add(const Employee *e) {
+void EmployeesArray::add(const Employee *e) {
     employees_.push_back((Employee *) e);
     size_++;
 }
 
-[[maybe_unused]] int32_t EmployeesArray::total_salary() const {
+int32_t EmployeesArray::total_salary() const {
     int32_t total = 0;
     for (auto e: employees_)
         total += e->salary();
@@ -119,10 +131,12 @@ std::istream &operator>>(std::istream &istream, Employee &e) {
 }
 
 std::ofstream &operator<<(std::ofstream &ofstream, const Employee &e) {
+    e.print(ofstream);
     return ofstream;
 }
 
 std::ifstream &operator>>(std::ifstream &ifstream, Employee &e) {
+
     return ifstream;
 }
 
@@ -132,3 +146,10 @@ std::ostream &operator<<(std::ostream &ostream, const EmployeesArray &employeesA
     ostream << "== Total salary: " << employeesArray.total_salary() << std::endl;
     return ostream;
 }
+
+std::ofstream &operator<<(std::ofstream &ofstream, const EmployeesArray &employeesArray) {
+    for (int32_t i = 0; i < employeesArray.size_; i++)
+        ofstream << *employeesArray.employees_[i];
+    return ofstream;
+}
+

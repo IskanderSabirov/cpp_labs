@@ -1,7 +1,7 @@
+#include <fstream>
 #include "employees.h"
 
 int main() {
-
     std::string cmd;
     EmployeesArray vars;
 
@@ -25,9 +25,22 @@ int main() {
                 std::cin >> *(Employee *) e;
                 vars.add((Employee *) e);
             }
+        } else if (cmd == "save") {
+            std::string file;
+            std::cin >> file;
+            std::ofstream out;                      // поток для чтения
+            out.open(file, std::ios::out); // открываем файл для чтения
+            if (out.is_open()) {                    //если файл открыт
+                out << vars;
+                out.close();
+            } else {
+                std::cerr << "Invalid file name" << std::endl;
+            }
         } else {
             return -1;
         }
     }
+
+
     return 0;
 }
