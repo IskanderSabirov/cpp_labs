@@ -1,31 +1,21 @@
 #include <stdexcept>
-#include <cstring>
-#include <iostream>
 #include "employees.h"
 
-Employee::Employee(const char *name, int base_salary) {
-    if (base_salary < 0)
-        throw std::runtime_error("Invalid base_salary");
+Employee::Employee(const std::string &name, int32_t base_salary) {
+    name_ = name;
     base_salary_ = base_salary;
-    name_ = new char[strlen(name) + 1];
-    strcpy(name_, name);
-    base_salary_ = base_salary;
-}
-
-Employee::~Employee() {
-    delete[] name_;
 }
 
 /// Developer
 
-Developer::Developer(const char *name, int base_salary, int bonus) : Employee(name, base_salary) {
+Developer::Developer(const std::string &name, int32_t base_salary, int32_t bonus) : Employee(name, base_salary) {
     if (bonus != 0 && bonus != 1)
         throw std::runtime_error("Invalid bonus for developer");
     has_bonus_ = (bonus == 1);
 }
 
-int Developer::salary() {
-    int salary = base_salary_;
+int32_t Developer::salary() const {
+    int32_t salary = base_salary_;
     if (has_bonus_) {
         salary += 1000;
     }
@@ -41,18 +31,20 @@ void Developer::print(std::ostream &ostream) const {
 
 /// Sales Manager
 
-SalesManager::SalesManager(const char *name, int base_salary, int s_items, int i_price) : Employee(
+SalesManager::SalesManager(const std::string &name, int32_t base_salary, int32_t s_items, int32_t i_price) : Employee(
         name, base_salary) {
+    if (s_items < 0 || i_price < 0)
+        throw std::runtime_error("Invalid data for Sales Manager");
     item_price_ = i_price;
     sold_number_ = s_items;
 }
 
-int SalesManager::salary() {
+int32_t SalesManager::salary() const {
     return base_salary_ + sold_number_ * item_price_ / 100;
 }
 
 void SalesManager::print(std::ostream &ostream) const {
-    ostream << "Sales manager" << std::endl;
+    ostream << "Sales Manager" << std::endl;
     ostream << "Name: " << name_ << std::endl;
     ostream << "Base Salary: " << base_salary_ << std::endl;
     ostream << "Sold items: " << sold_number_ << std::endl;
@@ -61,7 +53,7 @@ void SalesManager::print(std::ostream &ostream) const {
 
 /// EmployeesArray
 
-[[maybe_unused]] EmployeesArray::EmployeesArray(int size) {
+[[maybe_unused]] EmployeesArray::EmployeesArray(int32_t size) {
     if (size < 0)
         throw std::runtime_error("Invalid size for employees array");
     employees_ = std::vector<Employee *>(size);
@@ -75,7 +67,7 @@ EmployeesArray::EmployeesArray() {
 
 
 EmployeesArray::~EmployeesArray() {
-    for (int i = 0; i < size_; i++)
+    for (int32_t i = 0; i < size_; i++)
         delete employees_[i];
 }
 
@@ -84,8 +76,8 @@ EmployeesArray::~EmployeesArray() {
     size_++;
 }
 
-[[maybe_unused]] int EmployeesArray::total_salary() const {
-    int total = 0;
+[[maybe_unused]] int32_t EmployeesArray::total_salary() const {
+    int32_t total = 0;
     for (auto e: employees_)
         total += e->salary();
     return total;
@@ -111,8 +103,8 @@ std::ifstream &operator>>(std::ifstream &ifstream, Employee &e) {
 }
 
 std::ostream &operator<<(std::ostream &ostream, const EmployeesArray &employeesArray) {
-    for (int i = 0; i < employeesArray.size_; i++)
+    for (int32_t i = 0; i < employeesArray.size_; i++)
         ostream << (i + 1) << ". " << *employeesArray.employees_[i];
-    ostream << "== Total salary: " << employeesArray.total_salary() << std::endl << std::endl;
+    ostream << "== Total salary: " << employeesArray.total_salary() << std::endl;
     return ostream;
 }

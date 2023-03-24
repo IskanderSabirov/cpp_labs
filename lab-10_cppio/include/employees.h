@@ -4,18 +4,19 @@
 #include <cstdint>
 #include <string>
 #include <vector>
+#include <iostream>
 
-//с учетом, что у всех есть базовая или дефолт = 0
+
 class Employee {
 protected:
     int32_t base_salary_;
-    char *name_;
+    std::string name_;
 private:
     virtual void print(std::ostream &ostream) const =0;
 public :
-    Employee(const char *name,int base_salary);
-    virtual ~Employee();
-    virtual int salary() = 0;
+    Employee(const std::string& name, int32_t base_salary);
+    virtual ~Employee() = default;
+    [[nodiscard]] virtual int32_t salary() const = 0;
 
     friend std::ostream& operator<<(std::ostream& ostream, const Employee& e);
     friend std::istream& operator>>(std::istream& istream, Employee& e);
@@ -27,8 +28,8 @@ public :
 
 class Developer : public Employee {
 public:
-    Developer(const char* name, int base_salary, int bonus);
-    int salary() override;
+    Developer(const std::string& name, int32_t base_salary, int32_t bonus);
+    [[nodiscard]] int32_t salary() const override;
 private:
     bool has_bonus_;
     void print(std::ostream &ostream) const override;
@@ -38,8 +39,8 @@ private:
 
 class SalesManager :Employee {
 public:
-    SalesManager(const char *name, int base_salary, int sold_items, int item_price);
-    int salary() override;
+    SalesManager(const std::string& name, int32_t base_salary, int32_t sold_items, int32_t item_price);
+    [[nodiscard]] int32_t salary() const override;
 private:
     int32_t sold_number_;
     int32_t item_price_;
@@ -50,13 +51,13 @@ private:
 
 class EmployeesArray {
 public:
-    explicit EmployeesArray(int size);
+    explicit EmployeesArray(int32_t size);
     EmployeesArray();
     ~EmployeesArray();
 
     void add(const Employee *e);
 
-    [[nodiscard]] int total_salary() const;
+    [[nodiscard]] int32_t total_salary() const;
 
     friend std::ostream& operator<<(std::ostream& ostream, const EmployeesArray& employeesArray);
 

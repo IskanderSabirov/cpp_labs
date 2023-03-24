@@ -1,19 +1,8 @@
-#include <iostream>
-#include <string>
-#include <algorithm>
 #include "employees.h"
-
-bool isNumeric(std::string const &str) {
-    auto it = std::find_if(str.begin(), str.end(), [](char const &c) {
-        return !std::isdigit(c);
-    });
-
-    return !str.empty() && it == str.end();
-}
 
 int main() {
 
-    std::string cmd, name, arg2;
+    std::string cmd, name;
     EmployeesArray vars;
 
     while (std::cin) {
@@ -21,15 +10,21 @@ int main() {
         if (cmd == "exit") {
             break;
         } else if (cmd == "list") {
-            std::cout << vars;
+            std::cout << vars << std::endl;
         } else if (cmd == "add") {
-            std::size_t type, salary, bonus;
+            int32_t type, salary;
             std::cin >> type;
-            std::cin >> name >> salary >> bonus;
+            if (type != 1 && type != 2)
+                std::cerr << "Invalid type of worker, only 1 and 2" << std::endl;
+            std::cin >> name >> salary;
             if (type == 1) {
-                vars.add(new Developer(name.c_str(), salary, bonus));
-            }else{
-                std::cerr<<"Invalid type of worker, only 1 and 2" << std::endl;
+                int32_t bonus;
+                std::cin >> bonus;
+                vars.add((Employee *) new Developer(name, salary, bonus));
+            } else {
+                int32_t sold, price;
+                std::cin >> sold >> price;
+                vars.add((Employee *) new SalesManager(name, salary, sold, price));
             }
         } else {
             return -1;
@@ -41,7 +36,7 @@ int main() {
 //            std::cout << vars[arg1]->get(i, j) << std::endl;
 //        } else if (cmd == "set") {
 //            std::size_t i, j;
-//            int v;
+//            int32_t v;
 //            std::cin >> arg1 >> i >> j >> v;
 //            assert(vars.count(arg1) && "Unknows var");
 //            vars[arg1]->set(i, j, v);
