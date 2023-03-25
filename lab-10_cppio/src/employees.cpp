@@ -46,6 +46,10 @@ void Developer::read(std::istream &istream) {
     has_bonus_ = (bonus == 1);
 }
 
+void Developer::read(std::ifstream &ifstream) {
+    ifstream >> read_le_int32(&base_salary_);
+}
+
 /// Sales Manager
 
 SalesManager::SalesManager(const std::string &name, int32_t base_salary, int32_t s_items, int32_t i_price) : Employee(
@@ -84,6 +88,10 @@ void SalesManager::read(std::istream &istream) {
     base_salary_ = salary;
     sold_number_ = sold;
     item_price_ = price;
+}
+
+void SalesManager::read(std::ifstream &ifstream) {
+    ifstream >> read_le_int32(&name_);
 }
 
 /// EmployeesArray
@@ -136,7 +144,7 @@ std::ofstream &operator<<(std::ofstream &ofstream, const Employee &e) {
 }
 
 std::ifstream &operator>>(std::ifstream &ifstream, Employee &e) {
-
+    e.read(ifstream);
     return ifstream;
 }
 
@@ -148,8 +156,29 @@ std::ostream &operator<<(std::ostream &ostream, const EmployeesArray &employeesA
 }
 
 std::ofstream &operator<<(std::ofstream &ofstream, const EmployeesArray &employeesArray) {
+    ofstream << write_le_int32(employeesArray.size_);
     for (int32_t i = 0; i < employeesArray.size_; i++)
         ofstream << *employeesArray.employees_[i];
     return ofstream;
 }
 
+std::ifstream &operator>>(std::ifstream &ifstream, EmployeesArray &employeesArray) {
+    int32_t number;
+    ifstream >> read_le_int32(&number);
+    for (int i = 0; i < number; i++) {
+        int32_t type;
+        ifstream >> read_le_int32(&type);
+        if (type == 1) {
+            auto e = new Developer();
+            ifstream >> *(Employee *) e;
+            employeesArray.add((Employee *) e);
+        } else if (type == 2) {
+            auto e = new SalesManager();
+            ifstream >> *(Employee *) e;
+            employeesArray.add((Employee *) e);
+        } else {
+            throw std::runtime_error("Invalid type of employee");
+        }
+    }
+    return ifstream;
+}

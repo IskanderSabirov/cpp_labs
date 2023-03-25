@@ -1,5 +1,6 @@
 #include <fstream>
 #include "employees.h"
+#include "bin_manip.h"
 
 int main() {
     std::string cmd;
@@ -28,11 +29,21 @@ int main() {
         } else if (cmd == "save") {
             std::string file;
             std::cin >> file;
-            std::ofstream out;                      // поток для чтения
-            out.open(file, std::ios::out); // открываем файл для чтения
-            if (out.is_open()) {                    //если файл открыт
+            std::ofstream out;                       // поток для чтения
+            out.open(file, std::ios::out);  // открываем файл для записи
+            if (out) {                              //если файл открыт
                 out << vars;
                 out.close();
+            } else {
+                std::cerr << "Invalid file name" << std::endl;
+            }
+        } else if (cmd == "load") {
+            std::string file;
+            std::cin >> file;
+            std::ifstream out;                       // поток для чтения
+            out.open(file, std::ios::in);  // открываем файл для чтения
+            if (out) {                              //если файл открыт
+                out >> vars;
             } else {
                 std::cerr << "Invalid file name" << std::endl;
             }
@@ -41,6 +52,12 @@ int main() {
         }
     }
 
-
+//    std::ifstream instrm("..\\example.edb", std::ios::binary);
+//    int a = 0;
+    // читаем числа по одному из файла и выводим
+//    while (instrm >> read_le_int32(&a))
+//        std::cout << a << ' ';
+//    std::cout << '\n';
+//    instrm >> read_le_int32(&a);
     return 0;
 }

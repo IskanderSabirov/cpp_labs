@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include "bin_manip.h"
 
 
 class Employee {
@@ -14,7 +15,7 @@ protected:
     virtual void print(std::ostream &ostream) const =0;
     virtual void print(std::ofstream &ofstream) const =0;
     virtual void read(std::istream &istream) =0;
-//    virtual void read(std::ifstream &istream) =0;
+    virtual void read(std::ifstream &ifstream) =0;
 public :
     Employee(const std::string& name, int32_t base_salary);
     Employee() = default;
@@ -39,7 +40,7 @@ private:
     void print(std::ostream &ostream) const override;
     void print(std::ofstream &ofstream) const override;
     void read(std::istream &istream) override;
-//    void read(std::ifstream &istream) override;
+    void read(std::ifstream &ifstream) override;
 };
 
 ///
@@ -55,7 +56,7 @@ private:
     void print(std::ostream &ostream) const override;
     void print(std::ofstream &ofstream) const override;
     void read(std::istream &istream) override;
-//    void read(std::ifstream &istream) override;
+    void read(std::ifstream &ifstream) override;
 };
 
 ///
@@ -73,6 +74,8 @@ public:
     friend std::ostream& operator<<(std::ostream& ostream, const EmployeesArray& employeesArray);
 
     friend std::ofstream &operator<<(std::ofstream &ofstream, const EmployeesArray &employeesArray);
+
+    friend std::ifstream &operator>>(std::ifstream &ifstream, EmployeesArray &employeesArray);
 private:
     int32_t size_;
     std::vector<Employee*> employees_;
@@ -90,5 +93,7 @@ std::ifstream &operator>>(std::ifstream &ifstream, Employee &e);
 std::ostream &operator<<(std::ostream &ostream, const EmployeesArray &employeesArray);
 
 std::ofstream &operator<<(std::ofstream &ofstream, const EmployeesArray &employeesArray);
+
+std::ifstream &operator>>(std::ifstream &ifstream, EmployeesArray &employeesArray);
 
 #endif
