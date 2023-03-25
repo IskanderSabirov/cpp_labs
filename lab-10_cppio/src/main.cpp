@@ -1,6 +1,5 @@
 #include <fstream>
 #include "employees.h"
-#include "bin_manip.h"
 
 int main() {
     std::string cmd;

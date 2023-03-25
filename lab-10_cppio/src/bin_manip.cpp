@@ -58,9 +58,9 @@ std::ifstream &operator>>(std::ifstream &ifstream, read_string d) {
         ifstream.read(&a, sizeof(char));
         if (ifstream.eof())
             break;
-        d.data_->push_back(a);
         if (a == '\0')
             return ifstream;
+        d.data_->push_back(a);
     }
     throw std::runtime_error("Invalid data for sales manager");
 }

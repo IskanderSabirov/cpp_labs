@@ -1,13 +1,13 @@
 cmake_minimum_required(VERSION 3.16)
 
-set(X_PROJECT_NAME lab-10-cppio)
+set(X_PROJECT_NAME lab-10_cppio)
 set(COMMON_SOURCES src/bin_manip.cpp src/employees.cpp src/main.cpp include/bin_manip.h include/employees.h)
 
 project(${X_PROJECT_NAME} CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_compile_options(-Werror)
+add_compile_options(-Wall -Wextra -Werror)
 
 set(MAIN_SOURCES src/main.cpp ${COMMON_SOURCES})
 

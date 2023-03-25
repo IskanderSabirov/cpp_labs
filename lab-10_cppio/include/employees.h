@@ -30,7 +30,7 @@ public :
 
 class Developer : public Employee {
 public:
-    Developer(const std::string& name, int32_t base_salary, int32_t bonus);
+    [[maybe_unused]] Developer(const std::string& name, int32_t base_salary, int32_t bonus);
     Developer() = default;
     [[nodiscard]] int32_t salary() const override;
 private:
@@ -45,7 +45,7 @@ private:
 
 class SalesManager :Employee {
 public:
-    SalesManager(const std::string& name, int32_t base_salary, int32_t sold_items, int32_t item_price);
+    [[maybe_unused]] SalesManager(const std::string& name, int32_t base_salary, int32_t sold_items, int32_t item_price);
     SalesManager() = default;
     [[nodiscard]] int32_t salary() const override;
 private:
@@ -61,7 +61,7 @@ private:
 
 class EmployeesArray {
 public:
-    explicit EmployeesArray(int32_t size);
+    [[maybe_unused]] explicit EmployeesArray(int32_t size);
     EmployeesArray();
     ~EmployeesArray();
 

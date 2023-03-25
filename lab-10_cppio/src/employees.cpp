@@ -9,7 +9,7 @@ Employee::Employee(const std::string &name, int32_t base_salary) {
 
 /// Developer
 
-Developer::Developer(const std::string &name, int32_t base_salary, int32_t bonus) : Employee(name, base_salary) {
+[[maybe_unused]] Developer::Developer(const std::string &name, int32_t base_salary, int32_t bonus) : Employee(name, base_salary) {
     if (bonus != 0 && bonus != 1)
         throw std::runtime_error("Invalid bonus for developer");
     has_bonus_ = (bonus == 1);
@@ -25,7 +25,7 @@ int32_t Developer::salary() const {
 
 void Developer::print(std::ostream &ostream) const {
     ostream << "Developer" << std::endl;
-    ostream << "Name: " << name_ << "."<<std::endl;
+    ostream << "Name: " << name_ << std::endl;
     ostream << "Base Salary: " << base_salary_ << std::endl;
     ostream << "Has bonus: " << (has_bonus_ ? '+' : '-') << std::endl;
 }
@@ -39,7 +39,7 @@ void Developer::print(std::ofstream &ofstream) const {
 void Developer::read(std::istream &istream) {
     std::string name;
     int32_t salary, bonus;
-    std::cin >> name >> salary >> bonus;
+    istream >> name >> salary >> bonus;
     if (salary < 0 || (bonus != 0 && bonus != 1))
         throw std::runtime_error("Invalid data for developer");
     name_ = name;
@@ -53,7 +53,7 @@ void Developer::read(std::ifstream &ifstream) {
 
 /// Sales Manager
 
-SalesManager::SalesManager(const std::string &name, int32_t base_salary, int32_t s_items, int32_t i_price) : Employee(
+[[maybe_unused]] SalesManager::SalesManager(const std::string &name, int32_t base_salary, int32_t s_items, int32_t i_price) : Employee(
         name, base_salary) {
     if (s_items < 0 || i_price < 0)
         throw std::runtime_error("Invalid data for Sales Manager");
@@ -66,7 +66,7 @@ int32_t SalesManager::salary() const {
 }
 
 void SalesManager::print(std::ostream &ostream) const {
-    ostream << "Sales Manager" << "."<< std::endl;
+    ostream << "Sales Manager" << std::endl;
     ostream << "Name: " << name_ << std::endl;
     ostream << "Base Salary: " << base_salary_ << std::endl;
     ostream << "Sold items: " << sold_number_ << std::endl;
@@ -83,7 +83,7 @@ void SalesManager::print(std::ofstream &ofstream) const {
 void SalesManager::read(std::istream &istream) {
     std::string name;
     int32_t salary, sold, price;
-    std::cin >> name >> salary >> sold >> price;
+    istream >> name >> salary >> sold >> price;
     if (salary < 0 || price < 0 || sold < 0)
         throw std::runtime_error("Invalid data for sales manager");
     name_ = name;
@@ -99,7 +99,7 @@ void SalesManager::read(std::ifstream &ifstream) {
 
 /// EmployeesArray
 
-EmployeesArray::EmployeesArray(int32_t size) {
+[[maybe_unused]] EmployeesArray::EmployeesArray(int32_t size) {
     if (size < 0)
         throw std::runtime_error("Invalid size for employees array");
     employees_ = std::vector<Employee *>(size);
