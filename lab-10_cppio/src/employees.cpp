@@ -91,7 +91,7 @@ void SalesManager::read(std::istream &istream) {
 }
 
 void SalesManager::read(std::ifstream &ifstream) {
-    ifstream >> read_le_int32(&name_);
+    ifstream >> read_le_int32(&base_salary_);
 }
 
 /// EmployeesArray

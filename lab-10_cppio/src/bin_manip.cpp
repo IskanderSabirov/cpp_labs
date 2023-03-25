@@ -1,4 +1,5 @@
 #include "bin_manip.h"
+#include <utility>
 
 write_le_int32::write_le_int32(int32_t val) {
     val_ = val;
@@ -9,7 +10,7 @@ write_bool::write_bool(bool val) {
 }
 
 write_string::write_string(std::string val) {
-    val_ = val;
+    val_ = std::move(val);
 }
 
 read_le_int32::read_le_int32(int32_t *val) {

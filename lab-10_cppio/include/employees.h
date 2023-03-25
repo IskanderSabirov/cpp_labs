@@ -5,8 +5,6 @@
 #include <string>
 #include <vector>
 #include <iostream>
-#include "bin_manip.h"
-
 
 class Employee {
 protected:
