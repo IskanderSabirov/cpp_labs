@@ -4,6 +4,8 @@
 
 Employee::Employee(const std::string &name, int32_t base_salary) {
     name_ = name;
+    if(base_salary<0)
+        throw std::runtime_error("Invalid base_salary for employee :( ");
     base_salary_ = base_salary;
 }
 

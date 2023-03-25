@@ -69,7 +69,7 @@ public:
 
     [[nodiscard]] int32_t total_salary() const;
 
-    friend std::ostream& operator<<(std::ostream& ostream, const EmployeesArray& employeesArray);
+    friend std::ostream &operator<<(std::ostream& ostream, const EmployeesArray& employeesArray);
 
     friend std::ofstream &operator<<(std::ofstream &ofstream, const EmployeesArray &employeesArray);
 

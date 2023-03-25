@@ -62,5 +62,5 @@ std::ifstream &operator>>(std::ifstream &ifstream, read_string d) {
             return ifstream;
         d.data_->push_back(a);
     }
-    throw std::runtime_error("Invalid data for sales manager");
+    throw std::runtime_error("Invalid file. Can't read name");
 }
