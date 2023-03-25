@@ -44,6 +44,7 @@ int main() {
             out.open(file, std::ios::in);  // открываем файл для чтения
             if (out) {                              //если файл открыт
                 out >> vars;
+                out.close();
             } else {
                 std::cerr << "Invalid file name" << std::endl;
             }
@@ -53,6 +54,18 @@ int main() {
     }
 
 //    std::ifstream instrm("..\\example.edb", std::ios::binary);
+//    for(int i = 0; i < 8; i ++){
+//        if(i==3){
+//            bool b;
+//            instrm >> read_bool(&b);
+//            std::cout << b << ' ';
+//        }else{
+//            int a = 0;
+//            (instrm >> read_le_int32(&a));
+//            std::cout << a << ' ';
+//        }
+//    }
+
 //    int a = 0;
     // читаем числа по одному из файла и выводим
 //    while (instrm >> read_le_int32(&a))

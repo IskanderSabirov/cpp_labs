@@ -21,6 +21,10 @@ read_bool::read_bool(bool *val) {
     data_ = val;
 }
 
+
+read_string::read_string(std::string *val) {
+    data_ = val;
+}
 /// functions
 
 std::ofstream &operator<<(std::ofstream &ofstream, const write_le_int32 &d) {
@@ -38,12 +42,25 @@ std::ofstream &operator<<(std::ofstream &ofstream, const write_string &d) {
     return ofstream;
 }
 
-std::ifstream &operator>>(std::ifstream &ifstream, read_le_int32 &d) {
+std::ifstream &operator>>(std::ifstream &ifstream, read_le_int32 d) {
     ifstream.read((char *) d.data_, sizeof(int32_t));
     return ifstream;
 }
 
-std::ifstream &operator>>(std::ifstream &ifstream, read_bool &d) {
+std::ifstream &operator>>(std::ifstream &ifstream, read_bool d) {
     ifstream.read((char *) d.data_, sizeof(bool));
     return ifstream;
+}
+
+std::ifstream &operator>>(std::ifstream &ifstream, read_string d) {
+    char a = '1';
+    while (true) {
+        ifstream.read(&a, sizeof(char));
+        if (ifstream.eof())
+            break;
+        d.data_->push_back(a);
+        if (a == '\0')
+            return ifstream;
+    }
+    throw std::runtime_error("Invalid data for sales manager");
 }

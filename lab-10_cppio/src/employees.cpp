@@ -25,13 +25,14 @@ int32_t Developer::salary() const {
 
 void Developer::print(std::ostream &ostream) const {
     ostream << "Developer" << std::endl;
-    ostream << "Name: " << name_ << std::endl;
+    ostream << "Name: " << name_ << "."<<std::endl;
     ostream << "Base Salary: " << base_salary_ << std::endl;
     ostream << "Has bonus: " << (has_bonus_ ? '+' : '-') << std::endl;
 }
 
 void Developer::print(std::ofstream &ofstream) const {
-    ofstream << write_le_int32(1) << write_string(name_);
+    ofstream << write_le_int32(1);
+    ofstream << write_string(name_);
     ofstream << write_le_int32(base_salary_) << write_bool(has_bonus_);
 }
 
@@ -47,7 +48,7 @@ void Developer::read(std::istream &istream) {
 }
 
 void Developer::read(std::ifstream &ifstream) {
-    ifstream >> read_le_int32(&base_salary_);
+    ifstream >> read_string(&name_) >> read_le_int32(&base_salary_) >> read_bool(&has_bonus_);
 }
 
 /// Sales Manager
@@ -65,7 +66,7 @@ int32_t SalesManager::salary() const {
 }
 
 void SalesManager::print(std::ostream &ostream) const {
-    ostream << "Sales Manager" << std::endl;
+    ostream << "Sales Manager" << "."<< std::endl;
     ostream << "Name: " << name_ << std::endl;
     ostream << "Base Salary: " << base_salary_ << std::endl;
     ostream << "Sold items: " << sold_number_ << std::endl;
@@ -73,7 +74,8 @@ void SalesManager::print(std::ostream &ostream) const {
 }
 
 void SalesManager::print(std::ofstream &ofstream) const {
-    ofstream << write_le_int32(2) << write_string(name_);
+    ofstream << write_le_int32(2);
+    ofstream << write_string(name_);
     ofstream << write_le_int32(base_salary_) << write_le_int32(sold_number_);
     ofstream << write_le_int32(item_price_);
 }
@@ -91,7 +93,8 @@ void SalesManager::read(std::istream &istream) {
 }
 
 void SalesManager::read(std::ifstream &ifstream) {
-    ifstream >> read_le_int32(&base_salary_);
+    ifstream >> read_string(&name_) >> read_le_int32(&base_salary_) >> read_le_int32(&sold_number_);
+    ifstream >> read_le_int32(&item_price_);
 }
 
 /// EmployeesArray
