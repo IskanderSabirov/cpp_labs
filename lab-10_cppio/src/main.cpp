@@ -3,7 +3,7 @@
 
 int main() {
     std::string cmd;
-    EmployeesArray vars;
+    employee::EmployeesArray vars;
 
     while (std::cin) {
         std::cin >> cmd;
@@ -17,33 +17,29 @@ int main() {
             if (type != 1 && type != 2)
                 std::cerr << "Invalid type of worker, only 1 and 2" << std::endl;
             if (type == 1) {
-                auto e = new Developer();
-                std::cin >> *(Employee *) e;
-                vars.add((Employee *) e);
+                auto e = new employee::Developer();
+                std::cin >> *(employee::Employee *) e;
+                vars.add((employee::Employee *) e);
             } else {
-                auto e = new SalesManager();
-                std::cin >> *(Employee *) e;
-                vars.add((Employee *) e);
+                auto e = new employee::SalesManager();
+                std::cin >> *(employee::Employee *) e;
+                vars.add((employee::Employee *) e);
             }
         } else if (cmd == "save") {
             std::string file;
             std::cin >> file;
-            std::ofstream out;
-            out.open(file, std::ios::out);
+            std::ofstream out(file, std::ios::out);
             if (out) {
                 out << vars;
-                out.close();
             } else {
                 std::cerr << "Invalid file name" << std::endl;
             }
         } else if (cmd == "load") {
             std::string file;
             std::cin >> file;
-            std::ifstream out;
-            out.open(file, std::ios::in);
+            std::ifstream out(file, std::ios::in);
             if (out) {
                 out >> vars;
-                out.close();
             } else {
                 std::cerr << "Invalid file name" << std::endl;
             }
