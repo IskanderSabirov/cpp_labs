@@ -52,7 +52,8 @@ namespace employee {
     }
 
     void Developer::read(std::ifstream &ifstream) {
-        ifstream >> mymanip::read_string(&name_) >> mymanip::read_le_int32(&base_salary_) >>mymanip:: read_bool(&has_bonus_);
+        ifstream >> mymanip::read_string(&name_) >> mymanip::read_le_int32(&base_salary_)
+                 >> mymanip::read_bool(&has_bonus_);
     }
 
 /// Sales Manager
@@ -98,7 +99,8 @@ namespace employee {
     }
 
     void SalesManager::read(std::ifstream &ifstream) {
-        ifstream >> mymanip::read_string(&name_) >> mymanip::read_le_int32(&base_salary_) >> mymanip::read_le_int32(&sold_number_);
+        ifstream >> mymanip::read_string(&name_) >> mymanip::read_le_int32(&base_salary_)
+                 >> mymanip::read_le_int32(&sold_number_);
         ifstream >> mymanip::read_le_int32(&item_price_);
     }
 
@@ -178,12 +180,12 @@ namespace employee {
             ifstream >> mymanip::read_le_int32(&type);
             if (type == 1) {
                 auto e = new Developer();
-                ifstream >> *(Employee *) e;
-                employeesArray.add((Employee *) e);
+                ifstream >> *e;
+                employeesArray.add(e);
             } else if (type == 2) {
                 auto e = new SalesManager();
-                ifstream >> *(Employee *) e;
-                employeesArray.add((Employee *) e);
+                ifstream >> *e;
+                employeesArray.add(e);
             } else {
                 throw std::runtime_error("Invalid type of employee");
             }
