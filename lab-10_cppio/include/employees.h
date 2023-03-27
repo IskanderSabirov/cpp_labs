@@ -45,7 +45,7 @@ namespace employee {
 
 ///
 
-    class SalesManager : Employee {
+    class SalesManager : public Employee {
     public:
         [[maybe_unused]] SalesManager(const std::string &name, int32_t base_salary, int32_t sold_items,
                                       int32_t item_price);
