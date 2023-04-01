@@ -1,7 +1,7 @@
 #include <cstring>
 #include <cassert>
 
-#include "my_vector_impl.hpp"
+#include "my_vector.h"
 
 namespace product {
 
