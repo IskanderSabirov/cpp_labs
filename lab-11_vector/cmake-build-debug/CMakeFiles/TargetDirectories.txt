@@ -1,3 +1,0 @@
-C:/Users/sabir/CLionProjects/C labs/labs-sabirov-i/lab-11_vector/cmake-build-debug/CMakeFiles/lab-11_vector.dir
-C:/Users/sabir/CLionProjects/C labs/labs-sabirov-i/lab-11_vector/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/sabir/CLionProjects/C labs/labs-sabirov-i/lab-11_vector/cmake-build-debug/CMakeFiles/rebuild_cache.dir

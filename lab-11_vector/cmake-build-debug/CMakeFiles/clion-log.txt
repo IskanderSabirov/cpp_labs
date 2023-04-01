@@ -1,1 +1,0 @@
-CMakeLists.txt not found in C:\Users\sabir\CLionProjects\C labs\labs-sabirov-i\lab-11_vector Select CMakeLists.txt
