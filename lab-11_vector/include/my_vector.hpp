@@ -1,5 +1,5 @@
-#ifndef MY_VECTOR_H_
-#define MY_VECTOR_H_
+#ifndef LAB_11_VECTOR_MY_VECTOR_H
+#define LAB_11_VECTOR_MY_VECTOR_H
 
 #include <cstddef>
 #include <iostream>
@@ -48,4 +48,4 @@ private:
 
 }
 
-#endif  // MY_VECTOR_H_
+#endif

@@ -1,6 +1,6 @@
-#ifndef LAB_11_VECTOR_MY_VECTOR_H
-#define LAB_11_VECTOR_MY_VECTOR_H
+#ifndef MY_VECTOR_H_
+#define MY_VECTOR_H_
 
 #include "my_vector_impl.hpp"
 
-#endif //LAB_11_VECTOR_MY_VECTOR_H
+#endif
