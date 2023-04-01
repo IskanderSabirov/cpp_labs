@@ -128,9 +128,29 @@ void test_my_vector(const T &first, const T &second) {
         containers::my_vector<T> v1(3);
         v1.clear();
         assert(v1.empty());
-        assert(v1.capacity()==3);
+        assert(v1.capacity() == 3);
         std::cout << "empty and clear tests passed " << std::endl;
     }
+}
+
+template<class T>
+void test_my_vector_default_constructible(const T &first, const T &second) {
+    containers::my_vector<T> v(10);
+    assert(v.size() == 10);
+    assert(v.capacity() == 10);
+    for (size_t i = 0; i < 10; i++)
+        assert(v[i] == T());
+    v.push_back(first);
+    assert(v.capacity() == 16);
+    assert(v[10] == first);
+    v[0] = second;
+    assert(v[0] == second);
+    v.pop_back();
+    assert(v.size() == 10);
+    v.reserve(20);
+    assert(v.capacity() == 32);
+    v.clear();
+    assert(v.empty());
 }
 
 int main() {
@@ -143,6 +163,8 @@ int main() {
     test_my_vector<int>(5, 10);
     std::cout << std::endl;
     test_my_vector<product::Product>(product::Product("asdf", 4, 12.0), product::Product("qwe", -1, 7.5));
+
+    test_my_vector_default_constructible<int>(5,10);
 
     return 0;
 }

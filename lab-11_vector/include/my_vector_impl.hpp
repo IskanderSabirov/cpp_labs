@@ -7,7 +7,6 @@
 namespace containers {
     usingT
     my_vector<T>::my_vector() {
-        static_assert(std::is_default_constructible<T>::value);
         capacity_ = 1;
         size_ = 0;
         array_ = (T *) (new char[sizeof(T) * capacity_]);
@@ -25,7 +24,6 @@ namespace containers {
 
     usingT
     my_vector<T>::my_vector(const my_vector &other) {
-        static_assert(std::is_default_constructible<T>::value);
         capacity_ = other.capacity_;
         size_ = other.size_;
         array_ = (T *) (new char[sizeof(T) * capacity_]);
@@ -97,6 +95,7 @@ namespace containers {
 
     usingT
     void my_vector<T>::resize(std::size_t n) {
+        static_assert(std::is_default_constructible<T>::value);
         reserve(n);
         while (size_ > n) {
             array_[size_ - 1].~T();
