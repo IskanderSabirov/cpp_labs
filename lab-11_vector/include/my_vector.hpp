@@ -9,9 +9,9 @@ template<typename T>
 class my_vector {
 public:
     my_vector();
-    my_vector(std::size_t n);
-    my_vector(my_vector other);
-    my_vector operator=(my_vector other);
+    explicit my_vector(std::size_t n);
+    my_vector(const my_vector& other);
+    my_vector& operator=(const my_vector &other);
     ~my_vector();
 
     std::size_t size();
@@ -21,20 +21,21 @@ public:
     void resize(std::size_t n);
     void reserve(std::size_t n);
 
-    ?? operator[](std::size_t index);
+    T operator[](std::size_t index);
 
     void push_back(T t);
     void pop_back();
     void clear();
 
+    friend std::ostream &operator<<(std::ostream &ostream, const my_vector &v);
+
 private:
+    void destroy_vector();
     size_t capacity_;
     size_t size_;
     T* array_;
 };
 
 }
-
-#include "my_vector_impl.h"
 
 #endif  // MY_VECTOR_H_
