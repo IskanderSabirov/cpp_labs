@@ -2,6 +2,7 @@
 #define MY_VECTOR_H_
 
 #include <cstddef>
+#include <iostream>
 
 namespace containers {
 
@@ -9,7 +10,8 @@ template<typename T>
 class my_vector {
 public:
     my_vector();
-    explicit my_vector(std::size_t n);
+
+    [[maybe_unused]] explicit my_vector(std::size_t n);
     my_vector(const my_vector& other);
     my_vector& operator=(const my_vector &other);
     ~my_vector();

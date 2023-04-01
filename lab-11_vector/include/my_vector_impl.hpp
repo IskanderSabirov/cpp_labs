@@ -1,5 +1,7 @@
-#pragma once
+#ifndef LAB_11_VECTOR_MY_VECTOR_IMPL_HPP
+#define LAB_11_VECTOR_MY_VECTOR_IMPL_HPP
 
+#include <exception>
 #include "my_vector.hpp"
 
 #define usingT template<class T>
@@ -13,7 +15,7 @@ namespace containers {
     }
 
     usingT
-    my_vector<T>::my_vector(std::size_t n) {
+    [[maybe_unused]] my_vector<T>::my_vector(std::size_t n) {
         static_assert(std::is_default_constructible<T>::value);
         capacity_ = n;
         size_ = n;
@@ -132,3 +134,4 @@ namespace containers {
     }
 
 }
+#endif //LAB_11_VECTOR_MY_VECTOR_IMPL_HPP
