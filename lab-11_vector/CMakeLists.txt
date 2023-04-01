@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.16)
 
 set(X_PROJECT_NAME lab-11_vector)
-set(COMMON_SOURCES src/main.cpp include/my_vector.hpp include/my_vector_impl.hpp)
+set(COMMON_SOURCES include/my_vector.hpp include/my_vector_impl.hpp)
 
 project(${X_PROJECT_NAME} CXX)
 
