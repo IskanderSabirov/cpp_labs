@@ -134,11 +134,11 @@ void test_my_vector(const T &first, const T &second) {
 }
 
 int main() {
-//    containers::my_vector<int> v;
-//    v.push_back(2);
-//    const int n{3};
-//    v.push_back(n);
-//    std::cout << v << std::endl;
+    containers::my_vector<int> v;
+    v.push_back(2);
+    const int n{3};
+    v.push_back(n);
+    std::cout << v << std::endl;
 
     test_my_vector<int>(5, 10);
     std::cout << std::endl;
