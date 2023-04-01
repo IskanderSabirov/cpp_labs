@@ -121,7 +121,15 @@ void test_my_vector(const T &first, const T &second) {
         assert(v2.capacity() == v1.capacity());
         assert(v2[2] == T());
 
-        std::cout << "copy my_vector tests passed " << std::endl;
+        std::cout << "copy my_vector test passed " << std::endl;
+    }
+
+    {
+        containers::my_vector<T> v1(3);
+        v1.clear();
+        assert(v1.empty());
+        assert(v1.capacity()==3);
+        std::cout << "empty and clear tests passed " << std::endl;
     }
 }
 
