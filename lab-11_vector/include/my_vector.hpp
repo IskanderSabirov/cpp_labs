@@ -14,9 +14,9 @@ public:
     my_vector& operator=(const my_vector &other);
     ~my_vector();
 
-    std::size_t size();
-    std::size_t capacity();
-    bool empty();
+    [[nodiscard]] std::size_t size() const;
+    [[nodiscard]] std::size_t capacity() const;
+    [[nodiscard]] bool empty() const;
 
     void resize(std::size_t n);
     void reserve(std::size_t n);

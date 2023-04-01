@@ -7,7 +7,7 @@ namespace product {
 
     class Product {
     public:
-        Product(const char *name, int quantity, double price) {
+         Product(const char *name, int quantity, double price) {
             if (name == nullptr || quantity < 0 || price < 0) {
                 throw std::exception();
             }
@@ -27,7 +27,7 @@ namespace product {
             price_ = other.price_;
         }
 
-        Product &operator=(Product &other) {
+        Product &operator=(const Product &other) {
             if (this == &other)
                 return *this;
             if (other.name_ == nullptr || other.quantity_ < 0 || other.price_ < 0) {

@@ -1,6 +1,5 @@
 #pragma once
 
-#include <regex>
 #include "my_vector.hpp"
 
 #define usingT template<class T>
@@ -56,17 +55,17 @@ namespace containers {
     }
 
     usingT
-    size_t my_vector<T>::size() {
+    size_t my_vector<T>::size() const {
         return size_;
     }
 
     usingT
-    size_t my_vector<T>::capacity() {
+    size_t my_vector<T>::capacity() const {
         return capacity_;
     }
 
     usingT
-    bool my_vector<T>::empty() {
+    bool my_vector<T>::empty() const {
         return size_ == 0;
     }
 
@@ -85,7 +84,7 @@ namespace containers {
         size_t new_capacity = calc_capacity(n);
         T *new_array = (T *) (new char[sizeof(T) * new_capacity]);
         for (size_t i = 0; i < size_; i++) {
-            new(array_ + i) T(array_[i]);
+            new(new_array + i) T(array_[i]);
             array_[i].~T();
         }
         capacity_ = new_capacity;
@@ -110,13 +109,14 @@ namespace containers {
     T &my_vector<T>::operator[](std::size_t index) const {
         if (index >= size_)
             throw std::exception();
-        return array_[index - 1];
+        return array_[index];
     }
 
     usingT
     void my_vector<T>::push_back(const T &t) {
         reserve(size_ + 1);
-        new(array_ + size_++)T(t);
+        new(array_ + size_)T(t);
+        size_++;
     }
 
     usingT
