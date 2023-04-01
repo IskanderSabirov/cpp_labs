@@ -21,16 +21,24 @@ public:
     void resize(std::size_t n);
     void reserve(std::size_t n);
 
-    T operator[](std::size_t index);
+    T& operator[](std::size_t index) const;
 
-    void push_back(T t);
+    void push_back(const T& t);
     void pop_back();
     void clear();
 
-    friend std::ostream &operator<<(std::ostream &ostream, const my_vector &v);
+    friend std::ostream& operator<<(std::ostream &ostream, my_vector& v){
+        for(size_t i = 0 ; i < v.size_ ;i++ ){
+            ostream << v[i];
+            if(i!=v.size_-1)
+                ostream << " ";
+        }
+        return ostream;
+    }
 
 private:
     void destroy_vector();
+    size_t calc_capacity(size_t n);
     size_t capacity_;
     size_t size_;
     T* array_;

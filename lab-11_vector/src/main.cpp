@@ -1,7 +1,7 @@
 #include <iostream>
 #include <cstring>
 
-#include "my_vector.hpp"
+#include "my_vector_impl.hpp"
 
 namespace product {
 
@@ -48,9 +48,10 @@ namespace product {
         friend std::ostream &operator<<(std::ostream &ostream, const Product &p);
 
     private:
-        void destroy_name(){
+        void destroy_name() {
             delete[] name_;
         }
+
         char *name_;
         int quantity_;
         double price_;
@@ -70,8 +71,8 @@ int main() {
     v.push_back(n);
     std::cout << v << std::endl;
 
-    //test_my_vector<int>(5, 10);
-    //test_my_vector<Product>(Product("asdf", 4, 12.0), Product("qwe", -1, 7.5));
+//    test_my_vector<int>(5, 10);
+//    test_my_vector<Product>(Product("asdf", 4, 12.0), Product("qwe", -1, 7.5));
 
     return 0;
 }

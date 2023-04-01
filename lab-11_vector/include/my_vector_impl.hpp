@@ -18,7 +18,7 @@ namespace containers {
         capacity_ = n;
         size_ = n;
         array_ = (T *) new char[sizeof(T) * capacity_];
-        for (int i = 0; i < capacity_; i++)
+        for (size_t i = 0; i < capacity_; i++)
             new(array_ + i) T();
     }
 
@@ -70,5 +70,63 @@ namespace containers {
         return size_ == 0;
     }
 
+    usingT
+    size_t my_vector<T>::calc_capacity(size_t n) {
+        size_t ans = 1;
+        while (ans < n)
+            ans *= 2;
+        return ans;
+    }
+
+    usingT
+    void my_vector<T>::reserve(std::size_t n) {
+        if (n <= capacity_)
+            return;
+        size_t new_capacity = calc_capacity(n);
+        T *new_array = (T *) (new char[sizeof(T) * new_capacity]);
+        for (size_t i = 0; i < size_; i++) {
+            new(array_ + i) T(array_[i]);
+            array_[i].~T();
+        }
+        capacity_ = new_capacity;
+        delete[] (char *) array_;
+        array_ = new_array;
+    }
+
+    usingT
+    void my_vector<T>::resize(std::size_t n) {
+        reserve(n);
+        while (size_ > n) {
+            array_[size_ - 1].~T();
+            size_--;
+        }
+        while (size_ < n) {
+            new(array_ + size_)T();
+            size_++;
+        }
+    }
+
+    usingT
+    T &my_vector<T>::operator[](std::size_t index) const {
+        if (index >= size_)
+            throw std::exception();
+        return array_[index - 1];
+    }
+
+    usingT
+    void my_vector<T>::push_back(const T &t) {
+        reserve(size_ + 1);
+        new(array_ + size_++)T(t);
+    }
+
+    usingT
+    void my_vector<T>::pop_back() {
+        resize(--size_);
+    }
+
+    usingT
+    void my_vector<T>::clear() {
+        resize(0);
+    }
 
 }
