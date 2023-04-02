@@ -139,5 +139,15 @@ namespace containers {
         resize(0);
     }
 
+    usingT
+    std::ostream &operator<<(std::ostream &ostream, const my_vector<T> &v) {
+        for (size_t i = 0; i < v.size_; i++) {
+            ostream << v[i];
+            if (i != v.size_ - 1)
+                ostream << " ";
+        }
+        return ostream;
+    }
+
 }
 #endif //LAB_11_VECTOR_MY_VECTOR_IMPL_HPP

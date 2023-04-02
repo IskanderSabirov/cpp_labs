@@ -39,14 +39,10 @@ namespace containers {
 
         void clear();
 
-        friend std::ostream &operator<<(std::ostream &ostream, my_vector &v) {
-            for (size_t i = 0; i < v.size_; i++) {
-                ostream << v[i];
-                if (i != v.size_ - 1)
-                    ostream << " ";
-            }
-            return ostream;
-        }
+        template<class U>
+        friend std::ostream &operator<<(std::ostream &ostream,const my_vector<U> &v);
+
+//        friend std::ostream &operator<<(std::ostream &ostream,const my_vector &v);
 
     private:
         void destroy_vector();
@@ -57,16 +53,6 @@ namespace containers {
         size_t size_;
         T *array_;
     };
-
-//    template<typename T>
-//    std::ostream &operator<<(std::ostream &ostream, my_vector<T> &v) {
-//        for (size_t i = 0; i < v.size_; i++) {
-//            ostream << v[i];
-//            if (i != v.size_ - 1)
-//                ostream << " ";
-//        }
-//        return ostream;
-//    }
 }
 
 #include "my_vector_impl.hpp"
