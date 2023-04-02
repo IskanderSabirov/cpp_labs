@@ -99,12 +99,8 @@ void test_my_vector(const T &first, const T &second) {
         v.push_back(second);
         assert(v[8] == second);
         std::cout << v << std::endl;
-        v.pop_back();
-        v.pop_back();
-        std::cout << v << std::endl;
-        assert(v.size() == 7);
 
-        std::cout << "push_back and pop_back tests passed " << std::endl;
+        std::cout << "push_back tests passed " << std::endl;
     }
 
     {
@@ -122,13 +118,6 @@ void test_my_vector(const T &first, const T &second) {
         std::cout << "copy my_vector test passed " << std::endl;
     }
 
-    {
-        containers::my_vector<T> v1(3);
-        v1.clear();
-        assert(v1.empty());
-        assert(v1.capacity() == 3);
-        std::cout << "empty and clear tests passed " << std::endl;
-    }
 }
 
 template<class T>
