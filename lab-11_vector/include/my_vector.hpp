@@ -3,6 +3,7 @@
 
 #include <cstddef>
 #include <iostream>
+#include <exception>
 
 namespace containers {
 
@@ -41,8 +42,6 @@ namespace containers {
 
         template<class U>
         friend std::ostream &operator<<(std::ostream &ostream,const my_vector<U> &v);
-
-//        friend std::ostream &operator<<(std::ostream &ostream,const my_vector &v);
 
     private:
         void destroy_vector();

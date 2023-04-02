@@ -1,8 +1,6 @@
 #ifndef LAB_11_VECTOR_MY_VECTOR_IMPL_HPP
 #define LAB_11_VECTOR_MY_VECTOR_IMPL_HPP
 
-#include <exception>
-
 #define usingT template<class T>
 
 namespace containers {
