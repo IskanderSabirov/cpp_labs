@@ -10,7 +10,7 @@ namespace containers {
     my_vector<T>::my_vector() {
         capacity_ = 1;
         size_ = 0;
-        array_ = (T *) (new char[sizeof(T) * capacity_]);
+        array_ = reinterpret_cast<T *> (new char[sizeof(T) * capacity_]);
     }
 
     usingT
@@ -18,7 +18,7 @@ namespace containers {
         static_assert(std::is_default_constructible<T>::value);
         capacity_ = n;
         size_ = n;
-        array_ = (T *) new char[sizeof(T) * capacity_];
+        array_ = reinterpret_cast<T *>(new char[sizeof(T) * capacity_]);
         for (size_t i = 0; i < capacity_; i++)
             new(array_ + i) T();
     }
@@ -27,7 +27,7 @@ namespace containers {
     my_vector<T>::my_vector(const my_vector &other) {
         capacity_ = other.capacity_;
         size_ = other.size_;
-        array_ = (T *) (new char[sizeof(T) * capacity_]);
+        array_ = reinterpret_cast<T *> (new char[sizeof(T) * capacity_]);
         for (size_t i = 0; i < size_; i++) {
             new(array_ + i) T(other[i]);
         }
@@ -84,13 +84,13 @@ namespace containers {
         if (n <= capacity_)
             return;
         size_t new_capacity = calc_capacity(n);
-        T *new_array = (T *) (new char[sizeof(T) * new_capacity]);
+        T *new_array = reinterpret_cast<T *> (new char[sizeof(T) * new_capacity]);
         for (size_t i = 0; i < size_; i++) {
             new(new_array + i) T(array_[i]);
             array_[i].~T();
         }
         capacity_ = new_capacity;
-        delete[] (char *) array_;
+        delete[] reinterpret_cast<char *>(array_);
         array_ = new_array;
     }
 
@@ -109,7 +109,14 @@ namespace containers {
     }
 
     usingT
-    T &my_vector<T>::operator[](std::size_t index) const {
+    const T &my_vector<T>::operator[](std::size_t index) const {
+        if (index >= size_)
+            throw std::exception();
+        return array_[index];
+    }
+
+    usingT
+    T &my_vector<T>::operator[](std::size_t index) {
         if (index >= size_)
             throw std::exception();
         return array_[index];

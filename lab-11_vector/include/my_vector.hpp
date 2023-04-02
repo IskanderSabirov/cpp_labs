@@ -29,7 +29,9 @@ namespace containers {
 
         void reserve(std::size_t n);
 
-        T &operator[](std::size_t index) const;
+        const T &operator[](std::size_t index) const;
+
+        T &operator[](std::size_t index);
 
         void push_back(const T &t);
 
