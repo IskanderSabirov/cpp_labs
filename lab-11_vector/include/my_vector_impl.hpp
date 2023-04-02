@@ -2,7 +2,6 @@
 #define LAB_11_VECTOR_MY_VECTOR_IMPL_HPP
 
 #include <exception>
-#include "my_vector.hpp"
 
 #define usingT template<class T>
 
