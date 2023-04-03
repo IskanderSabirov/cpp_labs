@@ -2,8 +2,8 @@
 #define LAB_11_VECTOR_MY_VECTOR_H
 
 #include <cstddef>
+#include <cassert>
 #include <iostream>
-#include <exception>
 
 namespace containers {
 
