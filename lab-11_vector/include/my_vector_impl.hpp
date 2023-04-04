@@ -94,7 +94,7 @@ namespace containers {
     }
 
     usingT
-    void my_vector<T>::resize(std::size_t n) {
+    [[maybe_unused]] void my_vector<T>::resize(std::size_t n) {
         reserve(n);
         while (size_ > n) {
             array_[size_ - 1].~T();
@@ -129,12 +129,15 @@ namespace containers {
 
     usingT
     void my_vector<T>::pop_back() {
-        resize(--size_);
+        --size_;
+        array_[size_].~T();
     }
 
     usingT
     void my_vector<T>::clear() {
-        resize(0);
+        for (size_t i = 0; i < size_; i++)
+            array_[i].~T();
+        size_ = 0;
     }
 
     usingT
