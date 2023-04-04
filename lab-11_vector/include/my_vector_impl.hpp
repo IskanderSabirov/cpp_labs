@@ -16,7 +16,7 @@ namespace containers {
         reserve(n);
         size_ = n;
         array_ = reinterpret_cast<T *>(new char[sizeof(T) * capacity_]);
-        for (size_t i = 0; i < capacity_; i++)
+        for (size_t i = 0; i < size_; i++)
             new(array_ + i) T();
     }
 
