@@ -1,4 +1,4 @@
-#include "my_vector.hpp"
+#include "my_vector.h"
 
 MyVector::MyVector() {
     _data = new int[2];
