@@ -45,7 +45,7 @@ namespace containers {
         for (size_t i = 0; i < size_; i++) {
             array_[i].~T();
         }
-        delete[] (char *) (array_);
+        delete[] reinterpret_cast<char *> (array_);
 
     }
 
