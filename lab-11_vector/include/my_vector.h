@@ -1,5 +1,5 @@
-#ifndef LAB_11_VECTOR_MY_VECTOR_HPP
-#define LAB_11_VECTOR_MY_VECTOR_HPP
+#ifndef LAB_11_VECTOR_MY_VECTOR_H
+#define LAB_11_VECTOR_MY_VECTOR_H
 
 #include <cstddef>
 #include <cassert>
