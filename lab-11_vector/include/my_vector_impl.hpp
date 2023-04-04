@@ -12,7 +12,7 @@ namespace containers {
     }
 
     usingT
-    [[maybe_unused]] my_vector<T>::my_vector(std::size_t n) : capacity_(1), size_(0), array_(nullptr) {
+    my_vector<T>::my_vector(std::size_t n) : capacity_(1), size_(0), array_(nullptr) {
         reserve(n);
         size_ = n;
         for (size_t i = 0; i < size_; i++)
@@ -45,8 +45,8 @@ namespace containers {
         for (size_t i = 0; i < size_; i++) {
             array_[i].~T();
         }
-        delete[] reinterpret_cast<char *> (array_);
 
+        delete[] reinterpret_cast<char *> (array_);
     }
 
     usingT
@@ -90,7 +90,7 @@ namespace containers {
         capacity_ = new_capacity;
 
         delete[] reinterpret_cast<char *>(array_);
-        array_ = reinterpret_cast<T *>(new_array);
+        array_ = new_array;
     }
 
     usingT

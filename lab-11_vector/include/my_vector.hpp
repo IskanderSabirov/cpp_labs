@@ -27,7 +27,7 @@ namespace containers {
 
         [[nodiscard]] bool empty() const;
 
-        [[maybe_unused]] void resize(std::size_t n);
+        [[maybe_unused]] [[maybe_unused]] void resize(std::size_t n);
 
         void reserve(std::size_t n);
 
