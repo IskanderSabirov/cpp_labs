@@ -1,5 +1,5 @@
-#ifndef LAB_11_VECTOR_MY_VECTOR_IMPL_H
-#define LAB_11_VECTOR_MY_VECTOR_IMPL_H
+#ifndef LAB_11_VECTOR_MY_VECTOR_IMPL_HPP
+#define LAB_11_VECTOR_MY_VECTOR_IMPL_HPP
 
 #define usingT template<class T>
 
@@ -148,4 +148,4 @@ namespace containers {
     }
 
 }
-#endif //LAB_11_VECTOR_MY_VECTOR_IMPL_H
+#endif //LAB_11_VECTOR_MY_VECTOR_IMPL_HPP

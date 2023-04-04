@@ -1,5 +1,5 @@
-#ifndef LAB_11_VECTOR_MY_VECTOR_H
-#define LAB_11_VECTOR_MY_VECTOR_H
+#ifndef LAB_11_VECTOR_MY_VECTOR_HPP
+#define LAB_11_VECTOR_MY_VECTOR_HPP
 
 #include <cstddef>
 #include <cassert>
@@ -55,6 +55,6 @@ namespace containers {
     };
 }
 
-#include "my_vector_impl.h"
+#include "my_vector_impl.hpp"
 
 #endif

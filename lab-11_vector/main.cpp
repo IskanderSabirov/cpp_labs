@@ -1,7 +1,7 @@
 #include <iostream>
 #include <cstring>
 
-#include "my_vector.h"
+#include "my_vector.hpp"
 
 namespace product {
 
