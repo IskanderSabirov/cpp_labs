@@ -15,7 +15,6 @@ namespace containers {
     [[maybe_unused]] my_vector<T>::my_vector(std::size_t n) : capacity_(1), size_(0), array_(nullptr) {
         reserve(n);
         size_ = n;
-        array_ = reinterpret_cast<T *>(new char[sizeof(T) * capacity_]);
         for (size_t i = 0; i < size_; i++)
             new(array_ + i) T();
     }
