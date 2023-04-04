@@ -77,68 +77,70 @@ namespace product {
 
 }  // namespace product
 
+namespace {
+    template<class T>
+    void test_my_vector(const T &first, const T &second) {
 
-template<class T>
-void test_my_vector(const T &first, const T &second) {
+        {
+            containers::my_vector<T> v(10);
+            assert(v.size() == 10);
+            assert(v.capacity() == 10);
+            for (size_t i = 0; i < 10; i++)
+                assert(v[i] == T());
+            std::cout << v << std::endl;
 
-    {
+            std::cout << "initialization test passed " << std::endl;
+        }
+
+        {
+            containers::my_vector<T> v(7);
+            std::cout << v << std::endl;
+            v.push_back(first);
+            assert(v[7] == first);
+            v.push_back(second);
+            assert(v[8] == second);
+            std::cout << v << std::endl;
+
+            std::cout << "push_back tests passed " << std::endl;
+        }
+
+        {
+            containers::my_vector<T> v1(3);
+            const containers::my_vector<T> &v(v1);
+            assert(v.size() == v1.size());
+            assert(v.capacity() == v1.capacity());
+            assert(v[2] == T());
+
+            const containers::my_vector<T> &v2 = v1;
+            assert(v1.size() == v2.size());
+            assert(v2.capacity() == v1.capacity());
+            assert(v2[2] == T());
+
+            std::cout << "copy my_vector test passed " << std::endl;
+        }
+
+    }
+
+    template<class T>
+    void test_my_vector_default_constructible(const T &first, const T &second) {
         containers::my_vector<T> v(10);
         assert(v.size() == 10);
         assert(v.capacity() == 10);
         for (size_t i = 0; i < 10; i++)
             assert(v[i] == T());
-        std::cout << v << std::endl;
-
-        std::cout << "initialization test passed " << std::endl;
-    }
-
-    {
-        containers::my_vector<T> v(7);
-        std::cout << v << std::endl;
         v.push_back(first);
-        assert(v[7] == first);
-        v.push_back(second);
-        assert(v[8] == second);
-        std::cout << v << std::endl;
-
-        std::cout << "push_back tests passed " << std::endl;
+        assert(v.capacity() == 16);
+        assert(v[10] == first);
+        v[0] = second;
+        assert(v[0] == second);
+        v.pop_back();
+        assert(v.size() == 10);
+        v.reserve(20);
+        assert(v.capacity() == 32);
+        v.clear();
+        assert(v.empty());
     }
 
-    {
-        containers::my_vector<T> v1(3);
-        const containers::my_vector<T> &v(v1);
-        assert(v.size() == v1.size());
-        assert(v.capacity() == v1.capacity());
-        assert(v[2] == T());
-
-        const containers::my_vector<T> &v2 = v1;
-        assert(v1.size() == v2.size());
-        assert(v2.capacity() == v1.capacity());
-        assert(v2[2] == T());
-
-        std::cout << "copy my_vector test passed " << std::endl;
-    }
-
-}
-
-template<class T>
-void test_my_vector_default_constructible(const T &first, const T &second) {
-    containers::my_vector<T> v(10);
-    assert(v.size() == 10);
-    assert(v.capacity() == 10);
-    for (size_t i = 0; i < 10; i++)
-        assert(v[i] == T());
-    v.push_back(first);
-    assert(v.capacity() == 16);
-    assert(v[10] == first);
-    v[0] = second;
-    assert(v[0] == second);
-    v.pop_back();
-    assert(v.size() == 10);
-    v.reserve(20);
-    assert(v.capacity() == 32);
-    v.clear();
-    assert(v.empty());
 }
 
 int main() {
@@ -152,7 +154,7 @@ int main() {
     std::cout << std::endl;
     test_my_vector<product::Product>(product::Product("asdf", 4, 12.0), product::Product("qwe", -1, 7.5));
 
-    test_my_vector_default_constructible<int>(5,10);
+    test_my_vector_default_constructible<int>(5, 10);
 
     return 0;
 }
