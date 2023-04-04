@@ -36,7 +36,9 @@ namespace containers {
         if (this == &other)
             return *this;
         my_vector<T> t = other;
-        std::swap(&t, this);
+        std::swap(capacity_, t.capacity_);
+        std::swap(size_, t.size_);
+        std::swap(array_, t.array_);
         return *this;
     }
 
