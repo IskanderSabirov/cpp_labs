@@ -84,7 +84,7 @@ namespace {
         {
             containers::my_vector<T> v(10);
             assert(v.size() == 10);
-            assert(v.capacity() == 10);
+            assert(v.capacity() == 16);
             for (size_t i = 0; i < 10; i++)
                 assert(v[i] == T());
             std::cout << v << std::endl;
@@ -93,13 +93,13 @@ namespace {
         }
 
         {
-            containers::my_vector<T> v(7);
-            std::cout << v << std::endl;
-            v.push_back(first);
-            assert(v[7] == first);
-            v.push_back(second);
-            assert(v[8] == second);
-            std::cout << v << std::endl;
+            containers::my_vector<T> v2(7);
+            std::cout << v2 << std::endl;
+            v2.push_back(first);
+            assert(v2[7] == first);
+            v2.push_back(second);
+            assert(v2[8] == second);
+            std::cout << v2 << std::endl;
 
             std::cout << "push_back tests passed " << std::endl;
         }
@@ -125,7 +125,7 @@ namespace {
     void test_my_vector_default_constructible(const T &first, const T &second) {
         containers::my_vector<T> v(10);
         assert(v.size() == 10);
-        assert(v.capacity() == 10);
+        assert(v.capacity() == 16);
         for (size_t i = 0; i < 10; i++)
             assert(v[i] == T());
         v.push_back(first);
