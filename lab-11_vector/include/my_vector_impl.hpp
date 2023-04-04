@@ -89,6 +89,7 @@ namespace containers {
             array_[i].~T();
         }
         capacity_ = new_capacity;
+
         delete[] reinterpret_cast<char *>(array_);
         array_ = reinterpret_cast<T *>(new_array);
     }
