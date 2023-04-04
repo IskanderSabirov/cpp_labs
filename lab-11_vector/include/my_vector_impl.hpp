@@ -90,7 +90,7 @@ namespace containers {
         }
         capacity_ = new_capacity;
         delete[] reinterpret_cast<char *>(array_);
-        array_ = new_array;
+        array_ = reinterpret_cast<T *>(new_array);
     }
 
     usingT
