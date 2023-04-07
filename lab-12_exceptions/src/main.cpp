@@ -30,7 +30,7 @@ int main() {
                 int reg1 = get_register_number();
                 int reg2 = get_register_number();
                 registers.add(reg1, reg2);
-            } else if (cmd == "mull") {
+            } else if (cmd == "mul") {
                 int reg1 = get_register_number();
                 int reg2 = get_register_number();
                 registers.multiple(reg1, reg2);

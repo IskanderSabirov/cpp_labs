@@ -130,6 +130,7 @@ namespace my_matrix {
 
         Matrix tmp = Matrix(rows_, m.cols_);
 
+
         for (size_t i = 0; i < rows_; i++)
             for (size_t j = 0; j < m.cols_; j++) {
                 for (size_t k = 0; k < cols_; k++)
