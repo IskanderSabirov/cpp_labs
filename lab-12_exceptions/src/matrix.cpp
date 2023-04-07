@@ -4,15 +4,23 @@ namespace my_matrix {
     Matrix::Matrix() {
         rows_ = 0;
         cols_ = 0;
-        data_ = new int *[0];
+        try {
+            data_ = new int *[0];
+        } catch (std::bad_alloc &e) {
+            throw my_exception::MatrixException("Unable to allocate memory.");
+        }
     }
 
     Matrix::Matrix(size_t r, size_t c) {
         rows_ = r;
         cols_ = c;
-        data_ = new int *[rows_];
-        for (size_t i = 0; i < rows_; i++)
-            data_[i] = new int[cols_];
+        try {
+            data_ = new int *[rows_];
+            for (size_t i = 0; i < rows_; i++)
+                data_[i] = new int[cols_];
+        } catch (std::bad_alloc &e) {
+            throw my_exception::MatrixException("Unable to allocate memory.");
+        }
 
         for (size_t i = 0; i < rows_; i++)
             for (size_t j = 0; j < cols_; j++)
@@ -22,9 +30,15 @@ namespace my_matrix {
     Matrix::Matrix(const Matrix &matrix) {
         rows_ = matrix.rows_;
         cols_ = matrix.cols_;
-        data_ = new int *[rows_];
-        for (size_t i = 0; i < rows_; i++)
-            data_[i] = new int[cols_];
+
+        try {
+            data_ = new int *[rows_];
+            for (size_t i = 0; i < rows_; i++)
+                data_[i] = new int[cols_];
+        } catch (std::bad_alloc &e) {
+            throw my_exception::MatrixException("Unable to allocate memory.");
+        }
+
         for (size_t i = 0; i < rows_; i++)
             for (size_t j = 0; j < cols_; j++)
                 data_[i][j] = matrix.data_[i][j];
@@ -46,9 +60,15 @@ namespace my_matrix {
         DeleteMatrix();
         rows_ = matrix.rows_;
         cols_ = matrix.cols_;
-        data_ = new int *[rows_];
-        for (size_t i = 0; i < rows_; i++)
-            data_[i] = new int[cols_];
+
+        try {
+            data_ = new int *[rows_];
+            for (size_t i = 0; i < rows_; i++)
+                data_[i] = new int[cols_];
+        } catch (std::bad_alloc &e) {
+            throw my_exception::MatrixException("Unable to allocate memory.");
+        }
+
         for (size_t i = 0; i < rows_; i++)
             for (size_t j = 0; j < cols_; j++)
                 data_[i][j] = matrix.data_[i][j];
