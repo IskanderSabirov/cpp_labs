@@ -1,40 +1,60 @@
-#ifndef MY_VECTOR_H_
-#define MY_VECTOR_H_
+#ifndef LAB_11_VECTOR_MY_VECTOR_HPP
+#define LAB_11_VECTOR_MY_VECTOR_HPP
 
 #include <cstddef>
+#include <cassert>
+#include <iostream>
 
 namespace containers {
 
-template<typename T>
-class my_vector {
-public:
-    my_vector();
-    my_vector(std::size_t n);
-    my_vector(my_vector other);
-    my_vector operator=(my_vector other);
-    ~my_vector();
+    template<typename T>
+    class my_vector {
+    public:
 
-    std::size_t size();
-    std::size_t capacity();
-    bool empty();
+        my_vector();
 
-    void resize(std::size_t n);
-    void reserve(std::size_t n);
+        [[maybe_unused]] explicit my_vector(std::size_t n);
 
-    ?? operator[](std::size_t index);
+        my_vector(const my_vector &other);
 
-    void push_back(T t);
-    void pop_back();
-    void clear();
+        my_vector &operator=(const my_vector &other);
 
-private:
-    size_t capacity_;
-    size_t size_;
-    T* array_;
-};
+        ~my_vector();
 
+        [[nodiscard]] std::size_t size() const;
+
+        [[nodiscard]] std::size_t capacity() const;
+
+        [[nodiscard]] bool empty() const;
+
+        [[maybe_unused]] [[maybe_unused]] void resize(std::size_t n);
+
+        void reserve(std::size_t n);
+
+        const T &operator[](std::size_t index) const;
+
+        T &operator[](std::size_t index);
+
+        void push_back(const T &t);
+
+        void pop_back();
+
+        void clear();
+
+        template<class U>
+        friend std::ostream &operator<<(std::ostream &ostream,const my_vector<U> &v);
+
+    private:
+        void destroy_vector();
+
+        size_t calc_capacity(size_t n);
+
+        size_t capacity_;
+        size_t size_;
+        T *array_;
+    };
 }
 
-#include "my_vector_impl.h"
+#include "my_vector_impl.hpp"
 
-#endif  // MY_VECTOR_H_
+#endif
