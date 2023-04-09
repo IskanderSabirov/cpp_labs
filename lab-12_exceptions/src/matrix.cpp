@@ -1,23 +1,21 @@
 #include "matrix.h"
 
 namespace my_matrix {
-    Matrix::Matrix() : rows_(0), isData_(false) {
+    Matrix::Matrix() : rows_(0) {
         cols_ = 0;
         try {
             data_ = new int *[0];
-            isData_ = true;
         } catch (std::bad_alloc &e) {
             throw my_exception::MatrixException("Unable to allocate memory.");
         }
     }
 
-    Matrix::Matrix(size_t r, size_t c) : rows_(0), isData_(false) {
-        cols_ = c;
+    Matrix::Matrix(size_t r, size_t c) : rows_(0), cols_(0) {
         try {
             data_ = new int *[r];
-            isData_ = true;
             for (size_t i = 0; i < r; i++) {
                 data_[i] = new int[cols_];
+                cols_ = c;
                 rows_++;
             }
         } catch (std::bad_alloc &e) {
@@ -29,13 +27,12 @@ namespace my_matrix {
                 data_[i][j] = 0;
     }
 
-    Matrix::Matrix(const Matrix &matrix) : rows_(0), isData_(false) {
-        cols_ = matrix.cols_;
+    Matrix::Matrix(const Matrix &matrix) : rows_(0), cols_(0) {
         try {
             data_ = new int *[matrix.rows_];
-            isData_ = true;
             for (size_t i = 0; i < matrix.rows_; i++) {
                 data_[i] = new int[cols_];
+                cols_ = matrix.cols_;
                 rows_++;
             }
         } catch (std::bad_alloc &e) {
@@ -48,11 +45,9 @@ namespace my_matrix {
     }
 
     void Matrix::DeleteMatrix() {
-        if (isData_) {
-            for (size_t i = 0; i < rows_; i++)
-                delete[] data_[i];
-            delete[]data_;
-        }
+        for (size_t i = 0; i < rows_; i++)
+            delete[] data_[i];
+        delete[]data_;
     }
 
     Matrix::~Matrix() {
@@ -62,14 +57,18 @@ namespace my_matrix {
     Matrix &Matrix::operator=(const Matrix &matrix) {
         if (this == &matrix)
             return *this;
-        DeleteMatrix();
-        rows_ = matrix.rows_;
-        cols_ = matrix.cols_;
 
         try {
-            data_ = new int *[rows_];
-            for (size_t i = 0; i < rows_; i++)
+            auto t = new int *[matrix.rows_];
+            DeleteMatrix();
+            data_ = t;
+            rows_ = 0;
+            cols_ = 0;
+            for (size_t i = 0; i < matrix.rows_; i++) {
                 data_[i] = new int[cols_];
+                cols_ = matrix.cols_;
+                rows_++;
+            }
         } catch (std::bad_alloc &e) {
             throw my_exception::MatrixException("Unable to allocate memory.");
         }

@@ -51,8 +51,8 @@ namespace my_matrix {
     private:
         size_t rows_;
         size_t cols_;
-        bool isData_;
         int **data_;
+
         void DeleteMatrix();
     };
 
