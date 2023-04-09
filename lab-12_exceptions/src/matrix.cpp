@@ -10,12 +10,12 @@ namespace my_matrix {
         }
     }
 
-    Matrix::Matrix(size_t r, size_t c) : rows_(0), cols_(0) {
+    Matrix::Matrix(size_t r, size_t c) : rows_(0) {
+        cols_ = c;
         try {
             data_ = new int *[r];
             for (size_t i = 0; i < r; i++) {
                 data_[i] = new int[cols_];
-                cols_ = c;
                 rows_++;
             }
         } catch (std::bad_alloc &e) {
@@ -27,7 +27,8 @@ namespace my_matrix {
                 data_[i][j] = 0;
     }
 
-    Matrix::Matrix(const Matrix &matrix) : rows_(0), cols_(0) {
+    Matrix::Matrix(const Matrix &matrix) : rows_(0) {
+        cols_ = matrix.cols_;
         try {
             data_ = new int *[matrix.rows_];
             for (size_t i = 0; i < matrix.rows_; i++) {
