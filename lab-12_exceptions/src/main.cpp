@@ -5,6 +5,8 @@ namespace {
     int get_register_number() {
         std::string val;
         std::cin >> val;
+        if(val.size()!=2)
+            throw my_exception::MatrixException("Error: invalid register number");
         return val[1] - '0';
     }
 }
