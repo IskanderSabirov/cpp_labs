@@ -57,18 +57,14 @@ namespace my_matrix {
     Matrix &Matrix::operator=(const Matrix &matrix) {
         if (this == &matrix)
             return *this;
+        DeleteMatrix();
+        rows_ = matrix.rows_;
+        cols_ = matrix.cols_;
 
         try {
-            auto t = new int *[matrix.rows_];
-            DeleteMatrix();
-            data_ = t;
-            rows_ = 0;
-            cols_ = 0;
-            for (size_t i = 0; i < matrix.rows_; i++) {
+            data_ = new int *[rows_];
+            for (size_t i = 0; i < rows_; i++)
                 data_[i] = new int[cols_];
-                cols_ = matrix.cols_;
-                rows_++;
-            }
         } catch (std::bad_alloc &e) {
             throw my_exception::MatrixException("Unable to allocate memory.");
         }
