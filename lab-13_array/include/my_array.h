@@ -6,49 +6,57 @@
 
 namespace lab_13 {
 
-    template<typename T, size_t N>
+    template<typename T, std::size_t N>
     class my_array {
     private:
-        T _data[N];
+
+        std::size_t size_ = N;
+
+        T data_[N];
+
     public:
+
         my_array() = default;
 
-        my_array(const my_array &other_array) {
-            for (size_t i = 0; i < N; i++)
-                _data[i] = other_array[i];
+        my_array(const my_array &t) {
+            for (size_t i = 0; i < N; ++i)
+                data_[i] = t.data_[i];
         }
 
-        const T &at(size_t index) const {
+        const T &at(std::size_t index) const {
             if (index >= N)
-                throw std::out_of_range("Array index out of range");
-            return _data[index];
+                throw std::out_of_range("Invalid index ");
+            return data_[index];
         }
 
-        T &at(size_t index) {
+        T &at(std::size_t index) {
             if (index >= N)
-                throw std::out_of_range("Array index out of range");
-            return _data[index];
+                throw std::out_of_range("Invalid index ");
+            return data_[index];
         }
 
-        const T &operator[](size_t index) const {
-            return _data[index];
+        const T &operator[](std::size_t index) const {
+            return data_[index];
         }
 
-        T &operator[](size_t index) {
-            return _data[index];
+        T &operator[](std::size_t index) {
+            return data_[index];
         }
+
 
         bool empty() const {
-            return N == 0;
+            return size_ == 0;
         }
 
-        size_t size() const {
-            return N;
+        std::size_t size() const {
+            return size_;
         }
 
-        void fill(const T &val) {
-            std::fill(_data, _data + N, val);
+        void fill(T val) {
+            for (size_t i = 0; i < N; ++i)
+                data_[i] = val;
         }
+
     };
 
     template<size_t N>
