@@ -109,7 +109,7 @@ namespace lab_13 {
         bool_manip at(std::size_t index) {
             if (index >= N)
                 throw std::out_of_range("Invalid index ");
-            return operator[](index);
+            return (*this)[index];
         }
 
 
