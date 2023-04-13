@@ -1,143 +1,124 @@
-#ifndef MY_ARRAY_H_
-#define MY_ARRAY_H_
+#pragma once
 
 #include <cstddef>
 #include <stdexcept>
+#include <algorithm>
 
 namespace lab_13 {
 
-    template<typename T, std::size_t N>
+    template<typename T, size_t N>
     class my_array {
     private:
-
-        std::size_t size_ = N;
-
-        T data_[N];
-
+        T _data[N];
     public:
-
         my_array() = default;
 
-        my_array(const my_array &t) {
-            for (size_t i = 0; i < N; ++i)
-                data_[i] = t.data_[i];
+        my_array(const my_array &other_array) {
+            for (size_t i = 0; i < N; i++)
+                _data[i] = other_array[i];
         }
 
-        const T &at(std::size_t index) const {
+        const T &at(size_t index) const {
             if (index >= N)
-                throw std::out_of_range("Invalid index ");
-            return data_[index];
+                throw std::out_of_range("Array index out of range");
+            return _data[index];
         }
 
-        T &at(std::size_t index) {
+        T &at(size_t index) {
             if (index >= N)
-                throw std::out_of_range("Invalid index ");
-            return data_[index];
+                throw std::out_of_range("Array index out of range");
+            return _data[index];
         }
 
-        const T &operator[](std::size_t index) const {
-            return data_[index];
+        const T &operator[](size_t index) const {
+            return _data[index];
         }
 
-        T &operator[](std::size_t index) {
-            return data_[index];
+        T &operator[](size_t index) {
+            return _data[index];
         }
-
 
         bool empty() const {
-            return size_ == 0;
+            return N == 0;
         }
 
-        std::size_t size() const {
-            return size_;
+        size_t size() const {
+            return N;
         }
 
-        void fill(T val) {
-            for (size_t i = 0; i < N; ++i)
-                data_[i] = val;
+        void fill(const T &val) {
+            std::fill(_data, _data + N, val);
         }
-
     };
 
-    template<std::size_t N>
+    template<size_t N>
     class my_array<bool, N> {
     private:
+        static const size_t _bucketSize = 8;
+        uint8_t _data[(N + _bucketSize - 1) / _bucketSize] = {};
 
-        std::size_t size_ = N;
-
-        uint8_t data_[N / sizeof(uint8_t) + (N % sizeof(uint8_t) == 0 ? 0 : 1)] = {};
-
-        std::size_t block_size_ = sizeof(uint8_t);
-
-        class bool_manip {
+        class proxy {
         private:
-            uint8_t step_;
-            uint8_t &byte_;
+            uint8_t &_storage;
+            uint8_t _pos;
         public:
-            bool_manip(uint8_t &byte, uint8_t step) : step_(step), byte_(byte) {}
-
-            bool_manip &operator=(bool val) {
-                if (val)
-                    byte_ |= (1 << step_);
-                else
-                    byte_ &= ~(1 << step_);
-                return *this;
-            }
-
-            bool_manip &operator=(const bool_manip &t) {
-                byte_ = t.byte_;
-                step_ = t.step_;
-                return *this;
-            }
+            proxy(uint8_t &storage, uint8_t pos) : _storage(storage), _pos(pos) {}
 
             operator bool() const {
-                return (byte_ >> step_) & 1;
+                return _storage >> _pos & 1;
             }
 
+            proxy &operator=(bool new_value) {
+                _storage &= uint8_t(-1) ^ (1 << _pos);
+                _storage |= new_value << _pos;
+                return *this;
+            }
+
+            proxy &operator=(const proxy &other_proxy) {
+                return operator=(bool(other_proxy));
+            }
         };
 
     public:
-
         my_array() = default;
 
-        bool at(std::size_t index) const {
+        my_array(const my_array &other_array) {
+            std::copy(std::begin(other_array._data), std::end(other_array._data), _data);
+        }
+
+        bool operator[](size_t index) const {
+            return _data[index / _bucketSize] >> (index % _bucketSize) & 1;
+        }
+
+        proxy operator[](size_t index) {
+            return proxy(_data[index / _bucketSize], index % _bucketSize);
+        }
+
+        bool at(size_t index) const {
             if (index >= N)
-                throw std::out_of_range("Invalid index ");
-            return (*this)[index];
+                throw std::out_of_range("Array index out of range");
+            return operator[](index);
         }
 
-        bool_manip at(std::size_t index) {
+        proxy at(size_t index) {
             if (index >= N)
-                throw std::out_of_range("Invalid index ");
-            return (*this)[index];
-        }
-
-
-        bool operator[](std::size_t index) const {
-            return data_[index / block_size_] >> index % block_size_ & 1;
-        }
-
-        bool_manip operator[](std::size_t index) {
-            return bool_manip(data_[index / block_size_], index % block_size_);
+                throw std::out_of_range("Array index out of range");
+            return operator[](index);
         }
 
         bool empty() const {
-            return size_ == 0;
+            return N == 0;
         }
 
-        std::size_t size() const {
-            return size_;
+        bool size() const {
+            return N;
         }
 
-        void fill(bool val) {
-            uint8_t t = (val ? -1 : 0);
-            for (size_t i = 0; i < N; ++i)
-                data_[i] = t;
+        void fill(bool new_value) {
+            if (new_value)
+                std::fill(std::begin(_data), std::end(_data), uint8_t(-1));
+            else
+                std::fill(std::begin(_data), std::end(_data), uint8_t(0));
         }
-
     };
-
-
-}  // namespace lab_13
-
-#endif  // MY_ARRAY_H_
+}
