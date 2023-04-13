@@ -114,7 +114,7 @@ namespace lab_13 {
 
 
         bool operator[](std::size_t index) const {
-            return bool(bool_manip(data_[index / block_size_], index % block_size_));
+            return (data_[index / block_size_] >> index % block_size_ )& 1;
         }
 
         bool_manip operator[](std::size_t index) {
