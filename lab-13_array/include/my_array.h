@@ -10,8 +10,6 @@ namespace lab_13 {
     class my_array {
     private:
 
-        std::size_t size_ = sizeof(T) * N;
-
         T data_[N];
 
     public:
@@ -48,8 +46,8 @@ namespace lab_13 {
             return N == 0;
         }
 
-        std::size_t size() const {
-            return size_;
+        size_t size() const {
+            return N;
         }
 
         void fill(T val) {
@@ -63,11 +61,7 @@ namespace lab_13 {
     class my_array<bool, N> {
     private:
 
-        size_t real_size_ = N / 8 + (N % 8 == 0 ? 0 : 1);
-
         uint8_t data_[N / 8 + (N % 8 == 0 ? 0 : 1)] = {};
-
-        std::size_t block_size_ = 8;
 
         class bool_manip {
         private:
@@ -113,11 +107,11 @@ namespace lab_13 {
 
 
         bool operator[](std::size_t index) const {
-            return (data_[index / block_size_] >> index % block_size_) & 1;
+            return (data_[index / 8] >> index % 8) & 1;
         }
 
         bool_manip operator[](std::size_t index) {
-            return bool_manip(data_[index / block_size_], index % block_size_);
+            return bool_manip(data_[index / 8], index % 8);
         }
 
         bool empty() const {
@@ -125,12 +119,12 @@ namespace lab_13 {
         }
 
         std::size_t size() const {
-            return real_size_;
+            return N / 8 + (N % 8 == 0 ? 0 : 1);
         }
 
         [[maybe_unused]] void fill(bool val) {
             uint8_t t = (val ? -1 : 0);
-            for (size_t i = 0; i < real_size_; ++i)
+            for (size_t i = 0; i < N / 8 + (N % 8 == 0 ? 0 : 1); ++i)
                 data_[i] = t;
         }
 
