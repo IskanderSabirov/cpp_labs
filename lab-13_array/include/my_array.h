@@ -81,7 +81,8 @@ namespace lab_13 {
             }
 
             bool_manip &operator=(const bool_manip &t) {
-                *this = bool(t);
+                byte_ = t.byte_;
+                step_ = t.step_;
                 return *this;
             }
 
