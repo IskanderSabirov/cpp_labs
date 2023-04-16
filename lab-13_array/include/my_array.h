@@ -61,9 +61,9 @@ namespace lab_13 {
     class my_array<bool, N> {
     private:
 
-        uint8_t data_[N / (sizeof(uint8_t) * 8) + (N % (sizeof(uint8_t) * 8) == 0 ? 0 : 1)] = {};
+        uint8_t data_[N / (sizeof(uint8_t)) + (N % (sizeof(uint8_t)) == 0 ? 0 : 1)] = {};
 
-        std::size_t block_size_ = sizeof(uint8_t)*8;
+        std::size_t block_size_ = sizeof(uint8_t);
 
         class bool_manip {
         private:
