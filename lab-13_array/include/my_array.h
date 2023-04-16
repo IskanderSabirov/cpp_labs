@@ -132,6 +132,7 @@ namespace lab_13 {
             uint8_t t = (val ? -1 : 0);
             for (size_t i = 0; i < N; ++i)
                 data_[i] = t;
+            block_size_ = 8;
         }
 
     };
