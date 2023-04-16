@@ -119,7 +119,7 @@ namespace lab_13 {
         }
 
         std::size_t size() const {
-            return N / 8 + (N % 8 == 0 ? 0 : 1);
+            return N;
         }
 
         [[maybe_unused]] void fill(bool val) {
