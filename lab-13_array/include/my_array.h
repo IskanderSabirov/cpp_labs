@@ -10,6 +10,8 @@ namespace lab_13 {
     class my_array {
     private:
 
+        std::size_t size_ = sizeof(T) * N;
+
         T data_[N];
 
     public:
@@ -47,7 +49,7 @@ namespace lab_13 {
         }
 
         std::size_t size() const {
-            return sizeof(T) * N;
+            return size_;
         }
 
         void fill(T val) {
