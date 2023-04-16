@@ -63,7 +63,7 @@ namespace lab_13 {
 
         uint8_t data_[N / (sizeof(uint8_t) * 8) + (N % (sizeof(uint8_t) * 8) == 0 ? 0 : 1)] = {};
 
-        std::size_t block_size_ = sizeof(uint8_t);
+        std::size_t block_size_ = sizeof(uint8_t)*8;
 
         class bool_manip {
         private:
