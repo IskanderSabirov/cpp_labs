@@ -65,6 +65,8 @@ namespace lab_13 {
 
         std::size_t size_ = N;
 
+        size_t real_size_ = N / 8 + (N % 8 == 0 ? 0 : 1);
+
         uint8_t data_[N / 8 + (N % 8 == 0 ? 0 : 1)] = {};
 
         std::size_t block_size_ = 8;
@@ -130,9 +132,8 @@ namespace lab_13 {
 
         [[maybe_unused]] void fill(bool val) {
             uint8_t t = (val ? -1 : 0);
-            for (size_t i = 0; i < N; ++i)
+            for (size_t i = 0; i < real_size_; ++i)
                 data_[i] = t;
-            block_size_ = 8;
         }
 
     };
