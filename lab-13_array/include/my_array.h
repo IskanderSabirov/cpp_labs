@@ -10,7 +10,7 @@ namespace lab_13 {
     class my_array {
     private:
 
-        T data_[N];
+        T data_[N]{};
 
     public:
 
