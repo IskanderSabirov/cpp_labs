@@ -10,8 +10,6 @@ namespace lab_13 {
     class my_array {
     private:
 
-        std::size_t size_ = N;
-
         T data_[N];
 
     public:
@@ -45,11 +43,11 @@ namespace lab_13 {
 
 
         bool empty() const {
-            return size_ == 0;
+            return N == 0;
         }
 
         std::size_t size() const {
-            return size_;
+            return sizeof(T) * N;
         }
 
         void fill(T val) {
@@ -62,8 +60,6 @@ namespace lab_13 {
     template<std::size_t N>
     class my_array<bool, N> {
     private:
-
-        std::size_t size_ = N;
 
         size_t real_size_ = N / 8 + (N % 8 == 0 ? 0 : 1);
 
@@ -123,11 +119,11 @@ namespace lab_13 {
         }
 
         bool empty() const {
-            return size_ == 0;
+            return N == 0;
         }
 
         std::size_t size() const {
-            return size_;
+            return real_size_;
         }
 
         [[maybe_unused]] void fill(bool val) {
