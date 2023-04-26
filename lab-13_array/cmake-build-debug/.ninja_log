@@ -1,0 +1,4 @@
+# ninja log v5
+1	190	7036908737471475	build.ninja	7072a2cc02266add
+5	380	7033653652456052	CMakeFiles/lab-13_array.dir/src/smoke_compile.cpp.obj	521f947dc8bb79a
+381	561	7033653654227557	lab-13_array.exe	240fcf4e2a0a92ed
