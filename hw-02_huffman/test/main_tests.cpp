@@ -61,20 +61,17 @@ namespace {
         }
     }
 
+    TEST_CASE("Encoding/decoding test - empty file ") {
+        CHECK_EQ(do_code_decode("../samples/from1.txt", "../samples/code1.txt", "../samples/to1.txt"), true);
+    }
+
+    TEST_CASE("Encoding/decoding test - all chars ") {
+        write_all_chars("../samples/from2.txt");
+        CHECK_EQ(do_code_decode("../samples/from2.txt", "../samples/code2.txt", "../samples/to2.txt"), true);
+    }
+
+    TEST_CASE("Encoding/decoding test - Lena ") {
+        CHECK_EQ(do_code_decode("../samples/lena_512.bmp", "../samples/code_lena.txt", "../samples/lena.bmp"), true);
+    }
+
 }
-
-TEST_CASE("Encoding/decoding test - empty file ") {
-    CHECK_EQ(do_code_decode("../samples/from1.txt", "../samples/code1.txt", "../samples/to1.txt"), true);
-}
-
-TEST_CASE("Encoding/decoding test - all chars ") {
-    write_all_chars("../samples/from2.txt");
-    CHECK_EQ(do_code_decode("../samples/from2.txt", "../samples/code2.txt", "../samples/to2.txt"), true);
-}
-
-TEST_CASE("Encoding/decoding test - Lena ") {
-    CHECK_EQ(do_code_decode("../samples/lena_512.bmp", "../samples/code_lena.txt", "../samples/lena.bmp"), true);
-}
-
-
-

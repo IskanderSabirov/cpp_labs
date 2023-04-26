@@ -113,7 +113,7 @@ namespace MyDecoder {
     }
 
     std::ostream &operator<<(std::ostream &ostream, const decoder &decoder) {
-        ostream << decoder.get_not_codded_text_length() << " " << decoder.get_codded_length() << " "
+        ostream << decoder.get_codded_length() << " " << decoder.get_not_codded_text_length() << " "
                 << decoder.get_header_length() << std::endl;
         return ostream;
     }
