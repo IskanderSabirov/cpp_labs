@@ -74,4 +74,8 @@ namespace {
         CHECK_EQ(do_code_decode("../samples/lena_512.bmp", "../samples/code_lena.txt", "../samples/lena.bmp"), true);
     }
 
+    TEST_CASE("Encoding/decoding test - full ababa... ") {
+        CHECK_EQ(do_code_decode("../samples/lena_512.bmp", "../samples/code_lena.txt", "../samples/lena.bmp"), true);
+    }
+
 }
