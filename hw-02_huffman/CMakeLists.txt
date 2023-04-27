@@ -7,7 +7,7 @@ set(COMMON_SOURCES
         src/binary_io.cpp "include/tree.hpp" src/tree.cpp src/decoding.cpp "include/decoding.hpp")
 
 set(TEST_SOURCES "include/doctest.h" "test/parser_tests.cpp" "test/binary_io_tests.cpp" "test/tree_tests.cpp"
-        "test/decoding_tests.cpp" "test/encoding_tests.cpp")
+        "test/encoding_tests.cpp" "test/decoding_tests.cpp" )
 
 project(${X_PROJECT_NAME} CXX)
 
