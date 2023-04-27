@@ -68,9 +68,9 @@ namespace MyDecoder {
             auto symbol_code = reader_->read_bits(length_in_bytes * 8);
             symbol_code.resize(length_in_bits);
 
-            for (auto [_, exist_symbol]: decode_data_)
-                if (exist_symbol == symbol)
-                    throw MyException::my_exception("Error: there are two equal symbols in given text");
+//            for (auto [_, exist_symbol]: decode_data_)
+//                if (exist_symbol == symbol)
+//                    throw MyException::my_exception("Error: there are two equal symbols in given text");
 
             if (max_code_length < length_in_bits)
                 max_code_length = length_in_bits;

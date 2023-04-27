@@ -4,6 +4,7 @@
 #include <iostream>
 #include <map>
 #include <vector>
+#include <unordered_map>
 #include "binary_io.hpp"
 #include "tree.hpp"
 
@@ -25,7 +26,7 @@ namespace MyDecoder {
 
         uint32_t symbols_count_{};
 
-        std::map<std::vector<bool>, char> decode_data_{};
+        std::unordered_map<std::vector<bool>, char> decode_data_{};
 
     public:
 
