@@ -7,8 +7,8 @@
 namespace MyParser {
     parser::parser(int argc, char *argv[]) {
 
-//        if (argc != 6)
-//            throw MyException::my_exception("Error: wrong args count");
+        if (argc != 6)
+            throw MyException::my_exception("Error: wrong args count");
 
 
         to_file_ = "";

@@ -103,7 +103,7 @@ namespace MyEncoder {
     }
 
     std::ostream &operator<<(std::ostream &ostream, const encoder &encoder) {
-        ostream << encoder.get_read_text_length() << " " << encoder.get_encoded_text_length() << " "
+        ostream << encoder.get_read_text_length() << std::endl << encoder.get_encoded_text_length() << std::endl
                 << encoder.get_header_length() << std::endl;
         return ostream;
     }
