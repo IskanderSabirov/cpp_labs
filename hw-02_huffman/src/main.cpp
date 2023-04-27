@@ -12,8 +12,8 @@ int main(int argc, char *argv[]) {
         auto from = std::ifstream(parser.get_from_file(), std::ios::binary);
         auto to = std::ofstream(parser.get_to_file(), std::ios::binary);
 
-//        if (!from.is_open() || !to.is_open())
-//            throw MyException::my_exception("Error: file does not exist");
+        if (!from.is_open() || !to.is_open())
+            throw MyException::my_exception("Error: file does not exist");
 
         if (parser.get_operation_type_() == 'u') {
 

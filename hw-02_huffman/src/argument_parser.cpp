@@ -7,15 +7,15 @@
 namespace MyParser {
     parser::parser(int argc, char *argv[]) {
 
-        if (argc != 6)
-            throw MyException::my_exception("Error: wrong args count");
+//        if (argc != 6)
+//            throw MyException::my_exception("Error: wrong args count");
 
 
         to_file_ = "";
         from_file_ = "";
         operation_type_ = '-';
 
-        for (int i = 1; i < 6; ++i) {
+        for (int i = 1; i < argc; ++i) {
             if (strcmp(argv[i], "-c") == 0)
                 operation_type_ = 'c';
             else if (strcmp(argv[i], "-u") == 0)

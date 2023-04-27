@@ -64,8 +64,8 @@ namespace BinaryIO {
     void reader::read_buffer() {
 
         int symbol = file_->get();
-        if (symbol == EOF)
-            throw MyException::my_exception("Error: can`t read new byte");
+//        if (symbol == EOF)
+//            throw MyException::my_exception("Error: can`t read new byte");
 
         buffer_ = static_cast<unsigned char>(symbol);
         buffer_index_ = 7;
