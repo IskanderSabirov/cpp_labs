@@ -136,7 +136,7 @@ namespace linq {
             }
 
             explicit operator bool() const override {
-                return bool(parent_);
+                return parent_.operator bool();
             }
 
         private:
