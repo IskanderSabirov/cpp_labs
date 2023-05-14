@@ -151,15 +151,15 @@ namespace linq {
                     cur_ = func_(*parent);
             }
 
-            select_enumerator(select_enumerator &&) = default;
+            select_enumerator(select_enumerator &&) noexcept = default;
 
-            virtual operator bool() const {
-                return (bool) parent;
+            virtual explicit operator bool() const {
+                return parent.operator bool();
             }
 
             virtual enumerator<T> &operator++() {
                 ++parent;
-                if ((bool) parent)
+                if (parent.operator bool())
                     cur_ = func_(*parent);
                 return *this;
             }
