@@ -30,16 +30,6 @@ namespace linq {
         template<typename T>
         class enumerator {
         public:
-            enumerator() = default;
-
-            enumerator(enumerator &&) noexcept = default;
-
-            enumerator(const enumerator &) = delete;
-
-            enumerator &operator=(const enumerator &) = delete;
-
-            virtual ~enumerator() = default;
-
             virtual const T &operator*() = 0;// Получает текущий элемент.
             virtual enumerator &operator++() = 0;// Переход к следующему элементу
             virtual explicit operator bool() const = 0;// Возвращает true, если есть текущий элемент
@@ -62,8 +52,8 @@ namespace linq {
                 return until_enumerator<T, F>(*this, std::move(func));
             }
 
-            auto until_eq(const T &v) {
-                return until([=](const T &value) { return value == v; });
+            auto until_eq(T v) {
+                return until([v](T value) { return value == v; });
             }
 
             template<typename F>
@@ -71,8 +61,8 @@ namespace linq {
                 return where_enumerator<T, F>(*this, std::move(func));
             }
 
-            auto where_neq(const T &v) {
-                return where([=](const T &value) { return value != v; });
+            auto where_neq(T v) {
+                return where([v](T value) { return value != v; });
             }
 
 
