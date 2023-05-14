@@ -30,44 +30,18 @@ namespace linq {
         template<typename T>
         class enumerator {
         public:
+            enumerator() = default;
+            enumerator(enumerator &&) = default;
+            enumerator(const enumerator &) = delete;
+            enumerator &operator=(const enumerator &) = delete;
+            virtual ~enumerator() = default;
+
             virtual const T &operator*() = 0;// Получает текущий элемент.
             virtual enumerator &operator++() = 0;// Переход к следующему элементу
             virtual explicit operator bool() const = 0;// Возвращает true, если есть текущий элемент
 
-            auto drop(int count) {
-                return drop_enumerator(*this, count);
-            }
-
-            auto take(int count) {
-                return take_enumerator(*this, count);
-            }
-
-            template<typename U = T, typename F>
-            auto select(F func) {
-                return select_enumerator<U, T, F>(*this, std::move(func));
-            }
-
-            template<typename F>
-            auto until(F func) {
-                return until_enumerator<T, F>(*this, std::move(func));
-            }
-
-            auto until_eq(T v) {
-                return until([v](T value) { return value == v; });
-            }
-
-            template<typename F>
-            auto where(F func) {
-                return where_enumerator<T, F>(*this, std::move(func));
-            }
-
-            auto where_neq(T v) {
-                return where([v](T value) { return value != v; });
-            }
-
-
-            std::vector<T> to_vector() {
-                std::vector<T> answer;
+            std::vector <T> to_vector() {
+                std::vector <T> answer;
                 while (*this) {
                     answer.push_back(**this);
                     ++(*this);
@@ -79,11 +53,41 @@ namespace linq {
             void copy_to(Iter it) {
                 while (*this) {
                     *it = **this;
-                    ++it;
+                    it++;
                     ++(*this);
                 }
             }
 
+            auto take(int number) {
+                return take_enumerator<T>(*this, number);
+            }
+
+            auto drop(int number) {
+                return drop_enumerator<T>(*this, number);
+            }
+
+            template<typename F>
+            auto where(F func) {
+                return where_enumerator<T, F>(*this, std::move(func));
+            }
+
+            auto where_neq(T t) {
+                return where([t](T cur) { return cur != t; });
+            }
+
+            template<typename F>
+            auto until(F func) {
+                return until_enumerator<T, F>(*this, std::move(func));
+            }
+
+            auto until_eq(T t) {
+                return until([t](T cur) { return cur == t; });
+            }
+
+            template<typename U = T, typename F>
+            auto select(F func) {
+                return select_enumerator<U, T, F>(*this, std::move(func));
+            }
         };
 
         template<typename T, typename Iter>
