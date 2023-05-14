@@ -53,15 +53,6 @@ namespace linq {
                 return answer;
             }
 
-            template<typename Iter>
-            void copy_to(Iter it) {
-                while (*this) {
-                    *it = **this;
-                    it++;
-                    ++(*this);
-                }
-            }
-
             auto take(int number) {
                 return take_enumerator<T>(*this, number);
             }
@@ -92,6 +83,16 @@ namespace linq {
             auto select(F func) {
                 return select_enumerator<U, T, F>(*this, std::move(func));
             }
+
+            template<typename Iter>
+            void copy_to(Iter it) {
+                while (*this) {
+                    *it = **this;
+                    it++;
+                    ++(*this);
+                }
+            }
+
         };
 
         template<typename T, typename Iter>
