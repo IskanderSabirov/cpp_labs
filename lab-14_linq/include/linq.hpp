@@ -31,17 +31,21 @@ namespace linq {
         class enumerator {
         public:
             enumerator() = default;
+
             enumerator(enumerator &&) = default;
+
             enumerator(const enumerator &) = delete;
+
             enumerator &operator=(const enumerator &) = delete;
+
             virtual ~enumerator() = default;
 
             virtual const T &operator*() = 0;// Получает текущий элемент.
             virtual enumerator &operator++() = 0;// Переход к следующему элементу
             virtual explicit operator bool() const = 0;// Возвращает true, если есть текущий элемент
 
-            std::vector <T> to_vector() {
-                std::vector <T> answer;
+            std::vector<T> to_vector() {
+                std::vector<T> answer;
                 while (*this) {
                     answer.push_back(**this);
                     ++(*this);
@@ -198,18 +202,19 @@ namespace linq {
         class where_enumerator : public enumerator<T> {
         public:
             where_enumerator(enumerator<T> &parent, F func) : parent_(parent), func_(std::move(func)) {
-                while ((bool) parent && !func_(*parent))
+                while (parent.operator bool() && !func_(*parent))
                     ++parent;
             }
-            where_enumerator(where_enumerator &&)  noexcept = default;
+
+            where_enumerator(where_enumerator &&) noexcept = default;
 
             virtual explicit operator bool() const {
-                return (bool) parent_;
+                return parent_.operator bool();
             }
 
             virtual enumerator<T> &operator++() {
                 ++parent_;
-                while ((bool) parent_ && !func_(*parent_))
+                while (parent_.operator bool() && !func_(*parent_))
                     ++parent_;
                 return *this;
             }
