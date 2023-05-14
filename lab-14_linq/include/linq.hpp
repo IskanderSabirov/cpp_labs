@@ -40,9 +40,9 @@ namespace linq {
 
             virtual ~enumerator() = default;
 
-            virtual T operator*() const = 0; // Получает текущий элемент.
-            virtual enumerator &operator++() = 0;  // Переход к следующему элементу
-            virtual explicit operator bool() const = 0;  // Возвращает true, если есть текущий элемент
+            virtual const T &operator*() = 0;// Получает текущий элемент.
+            virtual enumerator &operator++() = 0;// Переход к следующему элементу
+            virtual explicit operator bool() const = 0;// Возвращает true, если есть текущий элемент
 
             auto drop(int count) {
                 return drop_enumerator(*this, count);
@@ -101,7 +101,7 @@ namespace linq {
         public:
             range_enumerator(Iter begin, Iter end) : begin_(begin), end_(end) {}
 
-            T operator*() const override {
+            const T &operator*() override {
                 return *begin_;
             }
 
@@ -127,7 +127,7 @@ namespace linq {
                     ++parent_;
             }
 
-            T operator*() const override {
+            const T &operator*() override {
                 return *parent_;
             }
 
@@ -147,52 +147,57 @@ namespace linq {
         template<typename T, typename U, typename F>
         class select_enumerator : public enumerator<T> {
         public:
-            select_enumerator(enumerator<U> &parent, F func) : predicate_(std::move(func)), parent_(parent) {
+            select_enumerator(enumerator<U> &parent, F func) : parent_(parent), func_(std::move(func)) {
+                cur_ = func_(*parent);
             }
 
-            T operator*() const override {
-                return predicate_(*parent_);
+            select_enumerator(select_enumerator &&) noexcept = default;
+
+            virtual explicit operator bool() const {
+                return parent_.operator bool();
             }
 
-            enumerator<T> &operator++() override {
-                ++(parent_);
+            virtual enumerator<T> &operator++() {
+                ++parent_;
+                if (parent_.operator bool())
+                    cur_ = func_(*parent_);
                 return *this;
             }
 
-            explicit operator bool() const override {
-                return bool(parent_);
+            virtual const T &operator*() {
+                return cur_;
             }
 
         private:
-            F predicate_;
             enumerator<U> &parent_;
+            F func_;
+            T cur_;
         };
 
         template<typename T, typename F>
         class until_enumerator : public enumerator<T> {
         public:
-            until_enumerator(enumerator<T> &parent, F func) : parent_(parent),
-                                                               predicate_(std::move(func)),
-                                                               end_(predicate_(*parent)) {};
+            until_enumerator(enumerator<T> &parent, F func) : parent_(parent), func_(std::move(func)) {}
 
-            T operator*() const override {
-                return *parent_;
+            until_enumerator(until_enumerator &&) noexcept = default;
+
+            virtual explicit operator bool() const {
+                return parent_.operator bool() && !func_(*parent_);
             }
 
-            until_enumerator &operator++() override {
-                ++parent_;
-                end_ |= !parent_ || predicate_(*parent_);
+            virtual enumerator<T> &operator++() {
+                if (parent_.operator bool() && !func_(*parent_))
+                    ++parent_;
                 return *this;
             }
 
-            explicit operator bool() const override {
-                return !end_;
+            virtual const T &operator*() {
+                return *parent_;
             }
 
         private:
             enumerator<T> &parent_;
-            F predicate_;
-            bool end_;
+            F func_;
         };
 
         template<typename T, typename F>
@@ -200,12 +205,10 @@ namespace linq {
         public:
 
             where_enumerator(enumerator<T> &parent, F func) : parent_(parent),
-                                                               predicate_(std::move(func)) {
+                                                              predicate_(std::move(func)) {
                 while (parent_.operator bool() && !func(*parent_))
                     ++parent_;
             }
-
-            where_enumerator(where_enumerator &&) noexcept = default;
 
             where_enumerator &operator++() override {
                 if (parent_.operator bool()) {
@@ -216,7 +219,7 @@ namespace linq {
                 return *this;
             }
 
-            T operator*() const override {
+            const T &operator*() override {
                 return *parent_;
             }
 
@@ -234,7 +237,7 @@ namespace linq {
         public:
             take_enumerator(enumerator<T> &parent, int count) : count_(count), parent_(parent) {}
 
-            T operator*() const override {
+            const T &operator*() override {
                 return *parent_;
             }
 
