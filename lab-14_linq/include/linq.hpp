@@ -197,31 +197,30 @@ namespace linq {
         template<typename T, typename F>
         class where_enumerator : public enumerator<T> {
         public:
-            where_enumerator(enumerator<T> &parent, F func) : parent_(parent), func_(std::move(func)) {
+            where_enumerator(enumerator<T> &parent, F _func) : parent(parent), func(std::move(_func)) {
                 while ((bool) parent && !func(*parent))
                     ++parent;
             }
-
             where_enumerator(where_enumerator &&)  noexcept = default;
 
             virtual explicit operator bool() const {
-                return parent_.operator bool();
+                return (bool) parent;
             }
 
             virtual enumerator<T> &operator++() {
-                ++parent_;
-                while (parent_.operator bool() && !func_(*parent_))
-                    ++parent_;
+                ++parent;
+                while ((bool) parent && !func(*parent))
+                    ++parent;
                 return *this;
             }
 
             virtual const T &operator*() {
-                return *parent_;
+                return *parent;
             }
 
         private:
-            enumerator<T> &parent_;
-            F func_;
+            enumerator<T> &parent;
+            F func;
         };
 
         template<typename T>
