@@ -146,22 +146,21 @@ namespace linq {
         template<typename T, typename U, typename F>
         class select_enumerator : public enumerator<T> {
         public:
-            select_enumerator(enumerator<U> &parent, F func) : parent_(parent), func_(std::move(func)) {
-                if (parent.operator bool()) {
-                    cur_ = func(*parent);
-                }
+            select_enumerator(enumerator<U> &parent, F func) : parent(parent), func_(std::move(func)) {
+                if (parent.operator bool())
+                    cur_ = func_(*parent);
             }
 
-            select_enumerator(select_enumerator &&) noexcept = default;
+            select_enumerator(select_enumerator &&) = default;
 
-            virtual explicit operator bool() const {
-                return parent_.operator bool();
+            virtual operator bool() const {
+                return (bool) parent;
             }
 
             virtual enumerator<T> &operator++() {
-                ++parent_;
-                if (parent_.operator bool())
-                    cur_ = func_(*parent_);
+                ++parent;
+                if ((bool) parent)
+                    cur_ = func_(*parent);
                 return *this;
             }
 
@@ -170,7 +169,7 @@ namespace linq {
             }
 
         private:
-            enumerator<U> &parent_;
+            enumerator<U> &parent;
             F func_;
             T cur_;
         };
