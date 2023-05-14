@@ -32,7 +32,7 @@ namespace linq {
         public:
             enumerator() = default;
 
-            enumerator(enumerator &&) = default;
+            enumerator(enumerator &&)  noexcept = default;
 
             enumerator(const enumerator &) = delete;
 
@@ -147,10 +147,12 @@ namespace linq {
         class select_enumerator : public enumerator<T> {
         public:
             select_enumerator(enumerator<U> &parent, F _func) : parent(parent), func(std::move(_func)) {
-                cache = func(*parent);
+                if (parent.operator bool()) {
+                    cache = func(*parent);
+                }
             }
 
-            select_enumerator(select_enumerator &&)  noexcept = default;
+            select_enumerator(select_enumerator &&) noexcept = default;
 
             virtual explicit operator bool() const {
                 return (bool) parent;
