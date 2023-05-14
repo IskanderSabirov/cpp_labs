@@ -147,11 +147,11 @@ namespace linq {
         template<typename T, typename U, typename F>
         class select_enumerator : public enumerator<T> {
         public:
-            select_enumerator(enumerator<U> &parent, F func) : func_(std::move(func)), parent_(parent) {
+            select_enumerator(enumerator<U> &parent, F func) : predicate_(std::move(func)), parent_(parent) {
             }
 
             T operator*() const override {
-                return func_(*parent_);
+                return predicate_(*parent_);
             }
 
             enumerator<T> &operator++() override {
@@ -164,16 +164,16 @@ namespace linq {
             }
 
         private:
-            F func_;
+            F predicate_;
             enumerator<U> &parent_;
         };
 
         template<typename T, typename F>
         class until_enumerator : public enumerator<T> {
         public:
-            until_enumerator(enumerator<T> &parent, F predicate) : parent_(parent),
-                                                                   predicate_(std::move(predicate)),
-                                                                   end_(predicate_(*parent)) {};
+            until_enumerator(enumerator<T> &parent, F func) : parent_(parent),
+                                                               predicate_(std::move(func)),
+                                                               end_(predicate_(*parent)) {};
 
             T operator*() const override {
                 return *parent_;
@@ -199,13 +199,13 @@ namespace linq {
         class where_enumerator : public enumerator<T> {
         public:
 
-            where_enumerator(enumerator<T> &parent, F predicate) : parent_(parent),
-                                                                   predicate_(std::move(predicate)) {
-                while (parent_.operator bool() && !predicate(*parent_))
+            where_enumerator(enumerator<T> &parent, F func) : parent_(parent),
+                                                               predicate_(std::move(func)) {
+                while (parent_.operator bool() && !func(*parent_))
                     ++parent_;
             }
 
-            where_enumerator(where_enumerator &&)  noexcept = default;
+            where_enumerator(where_enumerator &&) noexcept = default;
 
             where_enumerator &operator++() override {
                 if (parent_.operator bool()) {
