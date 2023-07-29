@@ -5,86 +5,261 @@
 #include <vector>
 
 namespace linq {
-namespace impl {
+    namespace impl {
 
-template<typename T, typename Iter>
-class range_enumerator;
-template<typename T>
-class drop_enumerator;
-template<typename T, typename U, typename F>
-class select_enumerator;
-template<typename T, typename F>
-class until_enumerator;
+        template<typename T, typename Iter>
+        class range_enumerator;
 
-template<typename T>
-class enumerator {
-public:
-  T operator*(); // Получает текущий элемент.
-  ??? operator++();  // Переход к следующему элементу
-  operator bool();  // Возвращает true, если есть текущий элемент
+        template<typename T>
+        class drop_enumerator;
 
-  auto drop(int count) {
-  }
+        template<typename T, typename U, typename F>
+        class select_enumerator;
 
-  template<typename U = T, typename F>
-  auto select(F func) {
-  }
+        template<typename T, typename F>
+        class until_enumerator;
 
-  template<typename F>
-  auto until(F func) {
-  }
+        template<typename T>
+        class take_enumerator;
 
-  std::vector<T> to_vector() {
-  }
+        template<typename T, typename F>
+        class where_enumerator;
 
-  template<typename Iter>
-  void copy_to(Iter it) {
-  }
-};
+        /// дальше реализация, добавлены еще несколько своих enumerator`ов
 
-template<typename T, typename Iter>
-class range_enumerator : public enumerator<T> {
-public:
-  range_enumerator(Iter begin, Iter end) : begin_(begin), end_(end) {
-  }
+        template<typename T>
+        class enumerator {
+        public:
+            enumerator() = default;
 
-private:
-  Iter begin_, end_;
-};
+            enumerator(enumerator &&) noexcept = default;
 
-template<typename T>
-class drop_enumerator : public enumerator<T> {
-public:
-  drop_enumerator(enumerator<T> &parent, int count) : parent_(parent) {
-  }
+            enumerator(const enumerator &) = delete;
 
-private:
-};
+            enumerator &operator=(const enumerator &) = delete;
 
-template<typename T, typename U, typename F>
-class select_enumerator : public enumerator<T> {
-public:
-  select_enumerator(enumerator<U> &parent, F func) : parent_(parent) {
-  }
+            virtual ~enumerator() = default;
 
-private:
-};
+            virtual const T &operator*() = 0;// Получает текущий элемент.
+            virtual enumerator &operator++() = 0;// Переход к следующему элементу
+            virtual explicit operator bool() const = 0;// Возвращает true, если есть текущий элемент
 
-template<typename T, typename F>
-class until_enumerator : public enumerator<T> {
-public:
-  until_enumerator(enumerator<T> &parent, F predicate) : parent_(parent) {
-  }
+            std::vector<T> to_vector() {
+                std::vector<T> answer;
+                while (*this) {
+                    answer.push_back(**this);
+                    ++(*this);
+                }
+                return answer;
+            }
 
-private:
-};
+            auto take(int number) {
+                return take_enumerator<T>(*this, number);
+            }
 
-} // namespace impl
+            auto drop(int number) {
+                return drop_enumerator<T>(*this, number);
+            }
 
-template<typename T>
-auto from(T begin, T end) {
-  return impl::range_enumerator<???, ???>(begin, end);
-}
+            template<typename F>
+            auto where(F func) {
+                return where_enumerator<T, F>(*this, std::move(func));
+            }
+
+            auto where_neq(T t) {
+                return where([t](T cur) { return cur != t; });
+            }
+
+            template<typename F>
+            auto until(F func) {
+                return until_enumerator<T, F>(*this, std::move(func));
+            }
+
+            auto until_eq(T t) {
+                return until([t](T cur) { return cur == t; });
+            }
+
+            template<typename U = T, typename F>
+            auto select(F func) {
+                return select_enumerator<U, T, F>(*this, std::move(func));
+            }
+
+            template<typename Iter>
+            void copy_to(Iter it) {
+                while (*this) {
+                    *it = **this;
+                    it++;
+                    ++(*this);
+                }
+            }
+
+        };
+
+        template<typename T, typename Iter>
+        class range_enumerator : public enumerator<T> {
+        public:
+            range_enumerator(Iter begin, Iter end) : begin_(begin), end_(end) {}
+
+            const T &operator*() override {
+                return *begin_;
+            }
+
+            range_enumerator &operator++() override {
+                ++begin_;
+                return *this;
+            }
+
+            explicit operator bool() const override {
+                return begin_ != end_;
+            }
+
+        private:
+            Iter begin_;
+            Iter end_;
+        };
+
+        template<typename T>
+        class drop_enumerator : public enumerator<T> {
+        public:
+            drop_enumerator(enumerator<T> &parent, int count) : parent_(parent) {
+                for (int i = 0; i < count && parent_; i++)
+                    ++parent_;
+            }
+
+            const T &operator*() override {
+                return *parent_;
+            }
+
+            enumerator<T> &operator++() override {
+                ++parent_;
+                return *this;
+            }
+
+            explicit operator bool() const override {
+                return parent_.operator bool();
+            }
+
+        private:
+            enumerator<T> &parent_;
+        };
+
+        template<typename T, typename U, typename F>
+        class select_enumerator : public enumerator<T> {
+        public:
+            select_enumerator(enumerator<U> &parent, F func) : parent_(parent), func_(std::move(func)) {
+                if (parent.operator bool())
+                    cur_ = func_(*parent);
+            }
+
+            select_enumerator(select_enumerator &&) noexcept = default;
+
+            virtual explicit operator bool() const {
+                return parent_.operator bool();
+            }
+
+            virtual enumerator<T> &operator++() {
+                ++parent_;
+                if (parent_.operator bool())
+                    cur_ = func_(*parent_);
+                return *this;
+            }
+
+            virtual const T &operator*() {
+                return cur_;
+            }
+
+        private:
+            enumerator<U> &parent_;
+            F func_;
+            T cur_;
+        };
+
+        template<typename T, typename F>
+        class until_enumerator : public enumerator<T> {
+        public:
+            until_enumerator(enumerator<T> &parent, F func) : parent_(parent), func_(std::move(func)) {}
+
+            until_enumerator(until_enumerator &&) noexcept = default;
+
+            virtual explicit operator bool() const {
+                return parent_.operator bool() && !func_(*parent_);
+            }
+
+            virtual enumerator<T> &operator++() {
+                if (parent_.operator bool() && !func_(*parent_))
+                    ++parent_;
+                return *this;
+            }
+
+            virtual const T &operator*() {
+                return *parent_;
+            }
+
+        private:
+            enumerator<T> &parent_;
+            F func_;
+        };
+
+        template<typename T, typename F>
+        class where_enumerator : public enumerator<T> {
+        public:
+            where_enumerator(enumerator<T> &parent, F func) : parent_(parent), func_(std::move(func)) {
+                while (parent.operator bool() && !func_(*parent))
+                    ++parent;
+            }
+
+            where_enumerator(where_enumerator &&) noexcept = default;
+
+            virtual explicit operator bool() const {
+                return parent_.operator bool();
+            }
+
+            virtual enumerator<T> &operator++() {
+                ++parent_;
+                while (parent_.operator bool() && !func_(*parent_))
+                    ++parent_;
+                return *this;
+            }
+
+            virtual const T &operator*() {
+                return *parent_;
+            }
+
+        private:
+            enumerator<T> &parent_;
+            F func_;
+        };
+
+        template<typename T>
+        class take_enumerator : public enumerator<T> {
+        public:
+            take_enumerator(enumerator<T> &parent, int count) : count_(count), parent_(parent) {}
+
+            const T &operator*() override {
+                return *parent_;
+            }
+
+            take_enumerator &operator++() override {
+                ++parent_;
+                count_--;
+                return *this;
+            }
+
+            explicit operator bool() const override {
+                return (count_ != 0) && parent_;
+            }
+
+        private:
+            int count_;
+            enumerator<T> &parent_;
+        };
+
+    } // namespace impl
+
+    template<typename T>
+    auto from(T begin, T end) {
+        return impl::range_enumerator<typename std::iterator_traits<T>::value_type, T>(begin, end);
+    }
 
 } // namespace linq
 
